@@ -93,6 +93,24 @@ public:
 	virtual void deviceRemoved(const std::string &address) { }
 
 	/**
+	 * @brief The method is called when a new LE device is discovered
+	 *        NOTE : This will be deprecated if stack is ready to support leDeviceFoundByScanId().
+	 *
+	 * @param properties Properties of the new device.
+	 */
+	virtual void leDeviceFound(const std::string &address, BluetoothPropertiesList properties) { }
+
+	/**
+	 * @brief The method is called when a device has disappeared and is no longer
+	 *        available.
+	 *        NOTE : This will be deprecated if stack is ready to support leDeviceRemovedByScanId().
+	 *
+	 * @param scanId Unique ID of LE scan
+	 * @param address Address of the removed device.
+	 */
+	virtual void leDeviceRemoved(const std::string &address) { }
+
+	/**
 	 * @brief The method is called when a new LE device is discovered by scan ID
 	 *
 	 * @param scanId Unique ID of LE scan
@@ -132,6 +150,17 @@ public:
 	 * @param properties List of changed properties.
 	 */
 	virtual void devicePropertiesChanged(const std::string &address,
+	                                     BluetoothPropertiesList properties) { }
+
+	/**
+	 * @brief The method is called when one or more properties have changed for a
+	 *        LE specific device.
+	 *        NOTE : This will be deprecated if stack is ready to support leDevicePropertiesChangedByScanId().
+	 *
+	 * @param address Address of the device whose properties have changed.
+	 * @param properties List of changed properties.
+	 */
+	virtual void leDevicePropertiesChanged(const std::string &address,
 	                                     BluetoothPropertiesList properties) { }
 
 	/**

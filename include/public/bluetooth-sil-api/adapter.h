@@ -24,10 +24,20 @@
 #include <unordered_map>
 #include "uuid.h"
 
+class BluetoothLeServiceUuid;
+class BluetoothLeServiceData;
+class BluetoothManufacturerData;
+class BluetoothLeDiscoveryFilter;
+
 /**
  * @brief Defines the default format for BLE advertising data.
  */
 typedef std::vector<uint8_t> BluetoothLowEnergyData;
+
+/**
+ * @brief Defines the default format for BLE mask.
+ */
+typedef std::vector<uint8_t> BluetoothLowEnergyMask;
 
 /**
  * @brief Defines the default format for a BLE service. This includes a string UUID and
@@ -57,12 +67,6 @@ struct ProprietaryData
 } ;
 
 typedef std::vector<ProprietaryData> ProprietaryDataList;
-
-/**
- * @brief List of the service UUID for BLE discovery filter which identifies
- *        the bluetooth gatt services running on the device.
- */
-typedef std::vector<std::string> BluetoothBleDiscoveryUuidFilterList;
 
 /**
  * @brief Defines the format for advertiser setting parameters.
@@ -159,6 +163,306 @@ typedef std::vector<uint16_t> BluetoothHCIParameterList;
  *        means Event parameters in this Callback.
  */
 typedef std::function<void(BluetoothError, uint16_t eventCode, BluetoothHCIParameterList)> BluetoothHCIEventCallback;
+
+/**
+ * @brief Bluetooth Low Energy Service UUID
+ *
+ *        Describes Bluetooth Low Energy Service UUID
+ */
+class BluetoothLeServiceUuid
+{
+public:
+	/**
+	 * @brief Default c'tor
+	 */
+	BluetoothLeServiceUuid()
+	{
+	}
+
+	/**
+	 * @brief Copy c'tor
+	 * @param other Other LE service UUID object to copy from
+	 */
+	BluetoothLeServiceUuid(const BluetoothLeServiceUuid &other) :
+		uuid(other.getUuid()),
+		mask(other.getMask())
+	{
+	}
+
+	/**
+	 * @brief Retrieve the UUID of the service
+	 * @return uuid UUID of the service
+	 */
+	std::string getUuid() const { return uuid; }
+
+	/**
+	 * @brief Retrieve the mask of the service
+	 * @return mask Mask of the service
+	 */
+	std::string getMask() const { return mask; }
+
+	/**
+	 * @brief Set the UUID of the service
+	 *
+	 * @param uuid UUID of the service
+	 */
+	void setUuid(std::string uuid) { this->uuid = uuid; }
+
+	/**
+	 * @brief Set the mask of the service
+	 *
+	 * @param mask mask of the service
+	 */
+	void setMask(std::string mask) { this->mask = mask; }
+
+private:
+	std::string uuid;
+	std::string mask;
+};
+
+/**
+ * @brief Bluetooth Low Energy Service Data
+ *
+ *        Describes Bluetooth Low Energy Service Data
+ */
+class BluetoothLeServiceData
+{
+public:
+	/**
+	 * @brief Default c'tor
+	 */
+	BluetoothLeServiceData()
+	{
+	}
+
+	/**
+	 * @brief Copy c'tor
+	 * @param other Other LE service UUID object to copy from
+	 */
+	BluetoothLeServiceData(const BluetoothLeServiceData &other) :
+		uuid(other.getUuid()),
+		data(other.getData()),
+		mask(other.getMask())
+	{
+	}
+
+	/**
+	 * @brief Retrieve the UUID of the service data
+	 * @return uuid UUID of the service
+	 */
+	std::string getUuid() const { return uuid; }
+
+	/**
+	 * @brief Retrieve the data of the service data
+	 * @return data Data of the service
+	 */
+	BluetoothLowEnergyData getData() const { return data; }
+
+	/**
+	 * @brief Retrieve the mask of the service data
+	 * @return mask mask of the service data
+	 */
+	BluetoothLowEnergyMask getMask() const { return mask; }
+
+	/**
+	 * @brief Set the UUID of the service
+	 *
+	 * @param uuid UUID of the service
+	 */
+	void setUuid(std::string uuid) { this->uuid = uuid; }
+
+	/**
+	 * @brief Set the data of the service
+	 *
+	 * @param data data of the service
+	 */
+	void setData(BluetoothLowEnergyData data) { this->data = data; }
+
+	/**
+	 * @brief Set the mask of the service
+	 *
+	 * @param mask mask of the service
+	 */
+	void setMask(BluetoothLowEnergyMask mask) { this->mask = mask; }
+
+private:
+	std::string uuid;
+	BluetoothLowEnergyData data;
+	BluetoothLowEnergyMask mask;
+};
+
+/**
+ * @brief Bluetooth Manufacturer Data
+ *
+ *        Describes Bluetooth Manufacturer Data
+ */
+class BluetoothManufacturerData
+{
+public:
+	/**
+	 * @brief Default c'tor
+	 */
+	BluetoothManufacturerData() :
+		id(-1)
+	{
+	}
+
+	/**
+	 * @brief Copy c'tor
+	 * @param other Other LE service UUID object to copy from
+	 */
+	BluetoothManufacturerData(const BluetoothManufacturerData &other) :
+		id(other.getId()),
+		data(other.getData()),
+		mask(other.getMask())
+	{
+	}
+
+	/**
+	 * @brief Retrieve the ID of the manufacturer data
+	 * @return id ID of the manufacturer data
+	 */
+	int32_t getId() const { return id; }
+
+	/**
+	 * @brief Retrieve the data of the manufacture
+	 * @return data Data of the manufacturer
+	 */
+	BluetoothLowEnergyData getData() const { return data; }
+
+	/**
+	 * @brief Retrieve the mask of the manufacturer data
+	 * @return mask mask of the manufacturer data
+	 */
+	BluetoothLowEnergyMask getMask() const { return mask; }
+
+	/**
+	 * @brief Set the ID of the manufacturer data
+	 *
+	 * @param ID ID of the manufacturer data
+	 */
+	void setId(int32_t id) { this->id = id; }
+
+	/**
+	 * @brief Set the data of the manufacturer
+	 *
+	 * @param data data of the manufacturer data
+	 */
+	void setData(BluetoothLowEnergyData data) { this->data = data; }
+
+	/**
+	 * @brief Set the mask of the manufacturer data
+	 *
+	 * @param mask mask of the manufacturer data
+	 */
+	void setMask(BluetoothLowEnergyMask mask) { this->mask = mask; }
+
+private:
+	int32_t id;
+	BluetoothLowEnergyData data;
+	BluetoothLowEnergyMask mask;
+};
+
+/**
+ * @brief Bluetooth Low Energy Scan Filter
+ *
+ *        Describes Bluetooth Low Energy Scan Filter
+ */
+class BluetoothLeDiscoveryFilter
+{
+public:
+	/**
+	 * @brief Default c'tor
+	 */
+	BluetoothLeDiscoveryFilter()
+	{
+	}
+
+	/**
+	 * @brief Copy c'tor
+	 * @param other Other LE service UUID object to copy from
+	 */
+	BluetoothLeDiscoveryFilter(const BluetoothLeDiscoveryFilter &other) :
+		address(other.getAddress()),
+		name(other.getName()),
+		serviceUuid(other.getServiceUuid()),
+		serviceData(other.getServiceData()),
+		manufacturerData(other.getManufacturerData())
+	{
+	}
+
+	/**
+	 * @brief Retrieve the device address
+	 * @return address the device address
+	 */
+	std::string getAddress() const { return address; }
+
+	/**
+	 * @brief Retrieve the device name
+	 * @return name the device name
+	 */
+	std::string getName() const { return name; }
+
+	/**
+	 * @brief Retrieve the service uuid object
+	 * @return serviceUuid the service uuid object
+	 */
+	BluetoothLeServiceUuid getServiceUuid() const { return serviceUuid; }
+
+	/**
+	 * @brief Retrieve the service data object
+	 * @return serviceData the service data object
+	 */
+	BluetoothLeServiceData getServiceData() const { return serviceData; }
+
+	/**
+	 * @brief Retrieve the manufacturer Data
+	 * @return manufacturerData the manufacturer Data
+	 */
+	BluetoothManufacturerData getManufacturerData() const { return manufacturerData; }
+
+	/**
+	 * @brief Set the device address
+	 *
+	 * @param address the device address
+	 */
+	void setAddress(std::string address) { this->address = address; }
+
+	/**
+	 * @brief Set the device name
+	 *
+	 * @param name the device name
+	 */
+	void setName(std::string name) { this->name = name; }
+
+	/**
+	 * @brief Set the service uuid object
+	 *
+	 * @param serviceUuid the service uuid object
+	 */
+	void setServiceUuid(BluetoothLeServiceUuid serviceUuid) { this->serviceUuid = serviceUuid; }
+
+	/**
+	 * @brief Set the service data object
+	 *
+	 * @param serviceData the service data object
+	 */
+	void setServiceData(BluetoothLeServiceData serviceData) { this->serviceData = serviceData; }
+
+	/**
+	 * @brief Set the manufacturer Data
+	 *
+	 * @param manufacturerData the manufacturer Data
+	 */
+	void setManufacturerData(BluetoothManufacturerData manufacturerData) { this->manufacturerData = manufacturerData; }
+
+private:
+	std::string address;
+	std::string name;
+	BluetoothLeServiceUuid serviceUuid;
+	BluetoothLeServiceData serviceData;
+	BluetoothManufacturerData manufacturerData;
+};
 
 
 /**
@@ -318,51 +622,55 @@ public:
 	virtual void cancelDiscovery(BluetoothResultCallback callback) = 0;
 
 	/**
-	 * @brief Start the LE discovery of devices with scan ID
+	 * @brief Add the LE discovery filter
 	 *
-	 *        NOTE: This method allows user to initiate multiple BLE discovery using
-	 *              unique scan ID.
+	 * @param filter LE discovery filter
 	 *
-	 *        If a discovery timeout is configured in the service layer, discovery
-	 *        will only be active during the configured timeout.
+	 * @return Unique ID of BLE discovery filter. 1 and over.
+	 */
+	virtual int32_t addLeDiscoveryFilter(const BluetoothLeDiscoveryFilter &filter)
+	{
+		return -1;
+	}
+
+	/**
+	 * @brief Remove the LE discovery filter
 	 *
-	 *        Newly found devices will be notified to the user through the leDeviceFoundByScanId
-	 *        method of the BluetoothAdapterStatusObserver interface.
-	 *
-	 *        If the Bluetooth adapter is disabled, a call to this method will fail.
-	 *
-	 *        If a discovery is already ongoing, a call will succeed but does nothing
-	 *        Also, discovery results retrieved by each ScanID will be delivered to the
-	 *        respective client through leDeviceFoundByScanId.
-	 *
-	 * @param scanId Unique ID of BLE discovery
-	 * @param uuids List of service UUID for BLE discovery filter which identifies the
-	 *        bluetooth gatt services running on the device.
-	 *        If the size of uuids is 0, filter is not used.
+	 * @param scanId Unique ID of BLE discovery filter
 	 *
 	 * @return Possible error of the operation
 	 */
-	virtual BluetoothError startLeDiscovery(uint32_t scanId, BluetoothBleDiscoveryUuidFilterList uuids)
+	virtual BluetoothError removeLeDiscoveryFilter(uint32_t scanId)
 	{
 		return BLUETOOTH_ERROR_UNSUPPORTED;
 	}
 
 	/**
-	 * @brief Cancel an ongoing discovery process with scan ID
+	 * @brief Check if already found devices matched LE filter criteria
 	 *
-	 *        If the Bluetooth adapter is disabled, a call to this method will fail.
+	 * @param filter LE discovery filter
+	 * @param scanId Unique ID of BLE discovery filter
+	 */
+	virtual void matchLeDiscoveryFilterDevices(const BluetoothLeDiscoveryFilter &filter, uint32_t scanId) = 0;
+
+	/**
+	 * @brief Start the LE discovery of devices
 	 *
-	 *        If no device discovery process is ongoing a call to this method will
-	 *        succeed but does nothing.
-	 *
-	 *        If cancelLeDiscovery is called when multiple startLeDiscovery is ongoing,
-	 *        the discovery that matches the scan ID is canceled.
+	 * @return Possible error of the operation
+	 */
+	virtual BluetoothError startLeDiscovery()
+	{
+		return BLUETOOTH_ERROR_UNSUPPORTED;
+	}
+
+	/**
+	 * @brief Cancel an ongoing LE discovery process
 	 *
 	 * @param scanId Unique ID of BLE discovery
 	 *
 	 * @return Possible error of the operation
 	 */
-	virtual BluetoothError cancelLeDiscovery(uint32_t scanId)
+	virtual BluetoothError cancelLeDiscovery()
 	{
 		return BLUETOOTH_ERROR_UNSUPPORTED;
 	}
