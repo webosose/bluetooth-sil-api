@@ -1,0 +1,19 @@
+# Common Eclipse project files
+.project
+.cproject
+.settings
+
+# Ignore the build artifacts.
+BUILD*
+/build
+release-*/
+debug-*/
+CMakeCache.txt
+cmake_install.cmake
+CMakeFiles
+conf/*.conf
+doc/Doxyfile
+doc/html
+patches
+src/*.pc
+*.orig
