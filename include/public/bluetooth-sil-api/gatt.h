@@ -1558,6 +1558,16 @@ public:
 	*/
 	virtual void notifyCharacteristicValueChanged(uint32_t serviceId, BluetoothGattCharacteristic characteristic, uint16_t charId) { }
 
+	/*
+	*
+	* @brief characteristic value write response to stack
+	* @param serverId or appId
+	* @param serviceId Service handle Id
+	* @param characteristic changed characteristic value
+	* @param charId changed characteristic handle id
+	*/
+	virtual void notifyCharacteristicValueChanged(uint16_t serverId, uint16_t serviceId, BluetoothGattCharacteristic characteristic, uint16_t charId) { }
+
 	/**
 	* @brief Get connectId of the specific remote device.
 	*
