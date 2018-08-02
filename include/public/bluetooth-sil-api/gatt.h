@@ -822,6 +822,19 @@ public:
 	virtual void characteristicValueChanged(const BluetoothUuid &service, const BluetoothGattCharacteristic &characteristic) { }
 
 	/**
+	 * @brief This method is called when the value of a specific descriptor of the
+	 *        local adapter has changed.
+	 *
+	 *        This method is only used to indicate changes to locally registered characteristic
+	 *        and their descriptor change
+	 *
+	 * @param service UUID
+	 * @param characteristic UUID
+	 * @param descriptor which is changed
+	 */
+	virtual void descriptorValueChanged(const BluetoothUuid &service, const BluetoothUuid &characteristic, BluetoothGattDescriptor &descriptor) { }
+
+	/**
 	 * The method is called when an eSCO connection state is changed. That is a BLE security link is established.
 	 *
 	 * @param address Address of the device.
@@ -1567,6 +1580,17 @@ public:
 	* @param charId changed characteristic handle id
 	*/
 	virtual void notifyCharacteristicValueChanged(uint16_t serverId, uint16_t serviceId, BluetoothGattCharacteristic characteristic, uint16_t charId) { }
+
+	/*
+	*
+	* @brief characteristic value write response to stack
+	* @param serverId or appId
+	* @param serviceId Service handle Id
+	* @param descId descriptor handle Id
+	* @param descriptor changed descriptor value
+	* @param charId changed characteristic handle id
+	*/
+	virtual void notifyDescriptorValueChanged(uint16_t serverId, uint16_t serviceId, uint16_t descId, BluetoothGattDescriptor descriptor, uint16_t charId) { }
 
 	/**
 	* @brief Get connectId of the specific remote device.
