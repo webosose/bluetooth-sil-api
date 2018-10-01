@@ -651,7 +651,7 @@ public:
 	 * @param filter LE discovery filter
 	 * @param scanId Unique ID of BLE discovery filter
 	 */
-	virtual void matchLeDiscoveryFilterDevices(const BluetoothLeDiscoveryFilter &filter, uint32_t scanId) = 0;
+	virtual void matchLeDiscoveryFilterDevices(const BluetoothLeDiscoveryFilter &filter, uint32_t scanId) { }
 
 	/**
 	 * @brief Start the LE discovery of devices
