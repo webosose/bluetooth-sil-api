@@ -69,6 +69,12 @@ struct ProprietaryData
 typedef std::vector<ProprietaryData> ProprietaryDataList;
 
 /**
+ * @brief List of the service UUID for BLE discovery filter which identifies
+ *        the bluetooth gatt services running on the device.
+ */
+typedef std::vector<std::string> BluetoothBleDiscoveryUuidFilterList;
+
+/**
  * @brief Defines the format for advertiser setting parameters.
  *
  * @param connectable True if advertisements can form a two way connection with a device,
@@ -671,6 +677,56 @@ public:
 	 * @return Possible error of the operation
 	 */
 	virtual BluetoothError cancelLeDiscovery()
+	{
+		return BLUETOOTH_ERROR_UNSUPPORTED;
+	}
+
+	/**
+	 * @brief Start the LE discovery of devices with scan ID
+	 *
+	 *        NOTE: This method allows user to initiate multiple BLE discovery using
+	 *              unique scan ID.
+	 *
+	 *        If a discovery timeout is configured in the service layer, discovery
+	 *        will only be active during the configured timeout.
+	 *
+	 *        Newly found devices will be notified to the user through the leDeviceFoundByScanId
+	 *        method of the BluetoothAdapterStatusObserver interface.
+	 *
+	 *        If the Bluetooth adapter is disabled, a call to this method will fail.
+	 *
+	 *        If a discovery is already ongoing, a call will succeed but does nothing
+	 *        Also, discovery results retrieved by each ScanID will be delivered to the
+	 *        respective client through leDeviceFoundByScanId.
+	 *
+	 * @param scanId Unique ID of BLE discovery
+	 * @param uuids List of service UUID for BLE discovery filter which identifies the
+	 *        bluetooth gatt services running on the device.
+	 *        If the size of uuids is 0, filter is not used.
+	 *
+	 * @return Possible error of the operation
+	 */
+	virtual BluetoothError startLeDiscovery(uint32_t scanId, BluetoothBleDiscoveryUuidFilterList uuids)
+	{
+		return BLUETOOTH_ERROR_UNSUPPORTED;
+	}
+
+	/**
+	 * @brief Cancel an ongoing discovery process with scan ID
+	 *
+	 *        If the Bluetooth adapter is disabled, a call to this method will fail.
+	 *
+	 *        If no device discovery process is ongoing a call to this method will
+	 *        succeed but does nothing.
+	 *
+	 *        If cancelLeDiscovery is called when multiple startLeDiscovery is ongoing,
+	 *        the discovery that matches the scan ID is canceled.
+	 *
+	 * @param scanId Unique ID of BLE discovery
+	 *
+	 * @return Possible error of the operation
+	 */
+	virtual BluetoothError cancelLeDiscovery(uint32_t scanId)
 	{
 		return BLUETOOTH_ERROR_UNSUPPORTED;
 	}
