@@ -134,6 +134,18 @@ enum WriteType
 };
 
 /**
+ * @brief Continue type of GATT characteristic.
+ */
+enum ContinueType
+{
+	SHORT_VALUE,
+	CONTINUE_VALUE,
+	END_VALUE,
+	CANCEL_VALUE,
+};
+
+
+/**
  * @brief Type of GATT application.
  */
 enum ApplicationType
@@ -852,6 +864,8 @@ public:
 	virtual void characteristicValueReadRequested(uint32_t requestId, const std::string &address, uint16_t serviceId, uint16_t charId) { }
 	virtual void characteristicValueWriteRequested(uint32_t requestId, const std::string &address, uint16_t serviceId, uint16_t charId,
 				const BluetoothGattValue &value, bool response = true) { }
+	virtual void characteristicValueWriteRequested(uint32_t requestId, const std::string &address, uint16_t serviceId, uint16_t charId,
+						       const BluetoothGattValue &value, ContinueType contType, bool response = true) { }
 };
 
 /**
