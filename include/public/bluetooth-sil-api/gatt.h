@@ -862,6 +862,7 @@ public:
 	 * @param charId Characteristic id
 	 */
 	virtual void characteristicValueReadRequested(uint32_t requestId, const std::string &address, uint16_t serviceId, uint16_t charId) { }
+	virtual void characteristicValueReadRequested(uint32_t requestId, const std::string &address, uint16_t serviceId, uint16_t charId, int offset, bool is_long) {}
 	virtual void characteristicValueWriteRequested(uint32_t requestId, const std::string &address, uint16_t serviceId, uint16_t charId,
 				const BluetoothGattValue &value, bool response = true) { }
 	virtual void characteristicValueWriteRequested(uint32_t requestId, const std::string &address, uint16_t serviceId, uint16_t charId,
