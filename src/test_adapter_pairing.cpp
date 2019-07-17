@@ -1,4 +1,4 @@
-// Copyright (c) 2015-2018 LG Electronics, Inc.
+// Copyright (c) 2015-2019 LG Electronics, Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -362,6 +362,7 @@ static gboolean setup_test_outgoing_pair(gpointer user_data)
 {
 	gCheckSource = g_timeout_add(1000, start_outgoing_pair, user_data);
 	clear_source(&gIdleSource);
+	return true;
 }
 
 static void test_outgoing_pair(Fixture *fixture, gconstpointer tdata)
