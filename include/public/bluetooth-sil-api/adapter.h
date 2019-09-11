@@ -1,4 +1,4 @@
-// Copyright (c) 2015-2018 LG Electronics, Inc.
+// Copyright (c) 2015-2019 LG Electronics, Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -426,6 +426,20 @@ public:
 	 * @return manufacturerData the manufacturer Data
 	 */
 	BluetoothManufacturerData getManufacturerData() const { return manufacturerData; }
+
+	/**
+	 * @brief Check if filter is empty
+	 * @return True if filter is empty else False
+	 */
+	bool isFilterEmpty() const
+	{
+		if ((getServiceUuid().getUuid().empty()) && (getServiceData().getUuid().empty())  &&
+		(getManufacturerData().getId() <= 0) && (getAddress().empty()) && (getName().empty()))
+		{
+			return true;
+		}
+		return false;
+	}
 
 	/**
 	 * @brief Set the device address
