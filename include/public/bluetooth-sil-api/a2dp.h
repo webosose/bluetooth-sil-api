@@ -1,4 +1,4 @@
-// Copyright (c) 2015-2018 LG Electronics, Inc.
+// Copyright (c) 2015-2019 LG Electronics, Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -324,6 +324,14 @@ public:
 	 * @param state current playing state of the A2DP profile.
 	*/
 	virtual void stateChanged(std::string address, BluetoothA2dpProfileState state) { }
+
+	/**
+	 * @brief The method is called when the profile state is changed
+	 * @param adapterAddress address of adapter
+	 * @param address Address of the device
+	 * @param state current playing state of the A2DP profile.
+	*/
+	virtual void stateChanged(std::string adapterAddress, std::string address, BluetoothA2dpProfileState state) { }
 
 	/**
 	 * @brief The method is called when A2DP audio socket is created
