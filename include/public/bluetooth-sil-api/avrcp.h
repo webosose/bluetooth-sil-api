@@ -1,4 +1,4 @@
-// Copyright (c) 2015-2018 LG Electronics, Inc.
+// Copyright (c) 2015-2019 LG Electronics, Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -563,9 +563,11 @@ public:
 	 *        from a remote device.
 	 *
 	 * @param features The remote features
+	 * @param adapterAddress address of adapter
 	 * @param address Address of remote device
 	 */
-	virtual void passThroughCommandReceived(BluetoothAvrcpPassThroughKeyCode keyCode, BluetoothAvrcpPassThroughKeyStatus keyStatus, const std::string &address) {}
+	virtual void passThroughCommandReceived(BluetoothAvrcpPassThroughKeyCode keyCode, BluetoothAvrcpPassThroughKeyStatus keyStatus,
+											const std::string &adapterAddress, const std::string &address) {}
 
 	/**
 	 * @brief This method is called when a local device is connected with a remote device and receives remote features
