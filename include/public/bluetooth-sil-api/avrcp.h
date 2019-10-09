@@ -556,7 +556,7 @@ public:
 	 * @param volume The changed volume level, range 0 ~ 127.
 	 * @param address Address of remote device
 	 */
-	virtual void volumeChanged(int volume, const std::string &address) {}
+	virtual void volumeChanged(int volume, const std::string &adapterAddress ,const std::string &address) {}
 
 	/**
 	 * @brief This method is called when a local device receives PASS THROUGH command from a remote device.
