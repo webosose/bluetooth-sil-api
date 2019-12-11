@@ -589,6 +589,16 @@ public:
 	virtual void remoteFeaturesReceived(BluetoothAvrcpRemoteFeatures features, const std::string &address, const std::string &role) {}
 
 	/**
+	 * @brief This method is called when a local device is connected with a remote device and receives remote features
+	 * 	from a remote device.
+	 * @param features The remote feautures
+	 * @param adapterAddress Address of adapter
+	 * @param address Address of remote device
+	 * @param role Role of remote device. Should be one of "CT" or "TG".(CT = Controller, TG = Target)
+	 */
+
+	virtual void remoteFeaturesReceived(BluetoothAvrcpRemoteFeatures features, const std::string &adapterAddress, const std::string &address, const std::string &role) {}
+	/**
 	 * @brief This method is called when a local device is connected with a remote device and receives supported notification events
 	 *        from a remote device.
 	 *
