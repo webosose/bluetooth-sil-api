@@ -1,4 +1,4 @@
-// Copyright (c) 2015-2018 LG Electronics, Inc.
+// Copyright (c) 2015-2020 LG Electronics, Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -81,6 +81,19 @@ public:
 	 */
 	virtual void supplyAccessConfirmation(BluetoothPbapAccessRequestId accessRequestId, bool accept, BluetoothResultCallback callback) = 0;
 
+	/**
+	 * @brief To set phonebook path of server device. Should be only called after the client
+	 *        PBAP profile is connected with server device by calling the connect
+	 *
+	 *        This method is only for the client side of PBAP(PCE) Role.
+	 *
+	 * @param address Address of the remote device
+	 * @param repository Where the phonebook is store
+	 * @param object Folder path for the phonebook
+	 * @param callback Callback function which is called when the operation is done or
+	 *        has failed.
+	 */
+	virtual void setPhoneBook(const std::string &address, const std::string &repository, const std::string &object, BluetoothResultCallback callback) = 0;
 protected:
 	/**
 	 * @brief Retrieve the PBAP status observer
