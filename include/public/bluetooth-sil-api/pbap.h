@@ -26,8 +26,12 @@ const std::string BLUETOOTH_PROFILE_ID_PBAP = "PBAP";
 typedef uint64_t BluetoothPbapAccessRequestId;
 const BluetoothPbapAccessRequestId BLUETOOTH_PBAP_ACCESS_REQUEST_ID_INVALID = 0;
 
+typedef std::map<std::string, std::string> BluetoothPbapVCardList;
+
 typedef std::function<void(BluetoothError, uint16_t size)>
 BluetoothPbapGetSizeResultCallback;
+typedef std::function<void(BluetoothError, BluetoothPbapVCardList&)>
+BluetoothPbapVCardListResultCallback;
 
 /**
  * @brief This interface is the base to implement an observer for the PBAP profile.
@@ -101,13 +105,26 @@ public:
 	 /**
 	 * @brief To get the total number of vcf entries in selected phonebook path.
 	 *
-	 *        This method is only for the service side of PBAP to get phonebook size.
+	 *        This method is only for the client side of PBAP(PCE) Role.
 	 *
 	 * @param address Address of the remote device
 	 * @param callback Callback function which is called when the operation is done or
 	 *        has failed with total number of vcf entries in selected phonebook path.
 	 */
-	virtual void getPhonebookSize(const std::string &address,BluetoothPbapGetSizeResultCallback callback) = 0;
+	virtual void getPhonebookSize(const std::string &address, BluetoothPbapGetSizeResultCallback callback) = 0;
+
+	/**
+	 * @brief This method will fetch the total vcf files entries from PSE device.
+	 *        Should be only called after setPhoneBook operation is successful.
+	 *        The response will contain array of  strings [vcf handle, Name]
+	 *
+	 *        This method is only for the client side of PBAP(PCE) Role.
+	 *
+	 * @param address of the PSE device from which list of vcf need to fetched.
+	 * @param callback Callback function which is called when the operation is done or
+	 *        has failed.
+	 */
+	virtual void vCardListing(const std::string &address, BluetoothPbapVCardListResultCallback callback) = 0;
 protected:
 	/**
 	 * @brief Retrieve the PBAP status observer
