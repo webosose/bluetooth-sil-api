@@ -26,6 +26,9 @@ const std::string BLUETOOTH_PROFILE_ID_PBAP = "PBAP";
 typedef uint64_t BluetoothPbapAccessRequestId;
 const BluetoothPbapAccessRequestId BLUETOOTH_PBAP_ACCESS_REQUEST_ID_INVALID = 0;
 
+typedef std::function<void(BluetoothError, uint16_t size)>
+BluetoothPbapGetSizeResultCallback;
+
 /**
  * @brief This interface is the base to implement an observer for the PBAP profile.
  */
@@ -94,6 +97,17 @@ public:
 	 *        has failed.
 	 */
 	virtual void setPhoneBook(const std::string &address, const std::string &repository, const std::string &object, BluetoothResultCallback callback) = 0;
+
+	 /**
+	 * @brief To get the total number of vcf entries in selected phonebook path.
+	 *
+	 *        This method is only for the service side of PBAP to get phonebook size.
+	 *
+	 * @param address Address of the remote device
+	 * @param callback Callback function which is called when the operation is done or
+	 *        has failed with total number of vcf entries in selected phonebook path.
+	 */
+	virtual void getPhonebookSize(const std::string &address,BluetoothPbapGetSizeResultCallback callback) = 0;
 protected:
 	/**
 	 * @brief Retrieve the PBAP status observer

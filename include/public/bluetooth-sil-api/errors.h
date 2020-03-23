@@ -75,6 +75,8 @@ enum BluetoothError
 	BLUETOOTH_ERROR_FIRMWARE_UPDATING,
 	/** Bluetooth device is already connected to one device **/
 	BLUETOOTH_ERROR_ALREADY_CONNECTED_ONE_DEVICE,
+	/** Select folder to perform operation **/
+	BLUETOOTH_ERROR_PBAP_CALL_SELECT_FOLDER_TYPE,
 };
 
 /**
