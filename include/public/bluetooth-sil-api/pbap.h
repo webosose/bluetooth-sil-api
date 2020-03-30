@@ -21,6 +21,8 @@
 	#error This header file should only be included by bluetooth-sil-api.h
 #endif
 
+#include <list>
+
 const std::string BLUETOOTH_PROFILE_ID_PBAP = "PBAP";
 
 typedef uint64_t BluetoothPbapAccessRequestId;
@@ -32,6 +34,9 @@ typedef std::function<void(BluetoothError, uint16_t size)>
 BluetoothPbapGetSizeResultCallback;
 typedef std::function<void(BluetoothError, BluetoothPbapVCardList&)>
 BluetoothPbapVCardListResultCallback;
+
+typedef std::function<void(BluetoothError, std::list<std::string> filters)>
+BluetoothPbapListFiltersResultCallback;
 
 /**
  * @brief This interface is the base to implement an observer for the PBAP profile.
@@ -145,6 +150,17 @@ public:
 	 *        has failed.
 	 */
 	virtual void getPhoneBookProperties(const std::string &address, BluetoothPropertiesResultCallback callback) = 0;
+
+	/**
+	 * @brief To get the list of supported filters field.
+	 *
+	 *        This method is only for the service side of PBAP to get the list of filters.
+	 *
+	 * @param address Address of the remote device
+	 * @param callback Callback function which is called when the operation is done or
+	 *        has failed with total number of vcf entries in selected phonebook path.
+	 */
+	virtual void getvCardFilters(const std::string &address, BluetoothPbapListFiltersResultCallback callback) = 0;
 protected:
 	/**
 	 * @brief Retrieve the PBAP status observer
