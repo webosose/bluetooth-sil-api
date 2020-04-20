@@ -50,6 +50,13 @@ public:
 	*/
 	virtual void accessRequested(BluetoothPbapAccessRequestId accessRequestId, const std::string &address,
 	        const std::string &deviceName) { }
+
+	/**
+	 * @brief The method is called when a PBAP specific property changes
+	 *
+	 * @param properties List of properties which have changed.
+	 */
+	virtual void profilePropertiesChanged(BluetoothPropertiesList properties, const std::string &address) { }
 };
 
 /**
@@ -125,6 +132,19 @@ public:
 	 *        has failed.
 	 */
 	virtual void vCardListing(const std::string &address, BluetoothPbapVCardListResultCallback callback) = 0;
+
+	/**
+	 * @brief This method will get supported properties from PSE device.
+	 *        The response will contain array of  strings [folder, DatabaseIdentifier,
+	 *        PrimaryCounter, SecondaryCounter, FixedImageSize]
+	 *
+	 *        This method is only for the client side of PBAP(PCE) Role.
+	 *
+	 * @param address Address of the remote device
+	 * @param callback Callback function which is called when the operation is done or
+	 *        has failed.
+	 */
+	virtual void getPhoneBookProperties(const std::string &address, BluetoothPropertiesResultCallback callback) = 0;
 protected:
 	/**
 	 * @brief Retrieve the PBAP status observer
