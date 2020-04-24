@@ -21,8 +21,6 @@
 	#error This header file should only be included by bluetooth-sil-api.h
 #endif
 
-#include <list>
-
 const std::string BLUETOOTH_PROFILE_ID_PBAP = "PBAP";
 
 typedef uint64_t BluetoothPbapAccessRequestId;
@@ -34,9 +32,16 @@ typedef std::function<void(BluetoothError, uint16_t size)>
 BluetoothPbapGetSizeResultCallback;
 typedef std::function<void(BluetoothError, BluetoothPbapVCardList&)>
 BluetoothPbapVCardListResultCallback;
+typedef std::function<void(BluetoothError, uint64_t bytesTransferred, bool finished)>
+BluetoothPbapTransferResultCallback;
 
 typedef std::function<void(BluetoothError, std::list<std::string> filters)>
 BluetoothPbapListFiltersResultCallback;
+
+/**
+ * @brief List of vCard filters.
+ */
+typedef std::vector<std::string> BluetoothPbapVCardFilterList;
 
 /**
  * @brief This interface is the base to implement an observer for the PBAP profile.
@@ -61,7 +66,7 @@ public:
 	 *
 	 * @param properties List of properties which have changed.
 	 */
-	virtual void profilePropertiesChanged(BluetoothPropertiesList properties, const std::string &address) { }
+	virtual void profilePropertiesChanged(const std::string &adapterAddress, const std::string &address, BluetoothPropertiesList properties) { }
 };
 
 /**
@@ -161,6 +166,21 @@ public:
 	 *        has failed with total number of vcf entries in selected phonebook path.
 	 */
 	virtual void getvCardFilters(const std::string &address, BluetoothPbapListFiltersResultCallback callback) = 0;
+
+	/**
+	 * @brief This method will fetch vcf file from PSE device.
+	 *
+	 *        This method is only for the client side of PBAP(PCE) Role.
+	 *
+	 * @param address Address of the remote device
+	 * @param destinationFile Destination file name
+	 * @param vCardHandle vcf handle of the vcf entries
+	 * @param vCardVersion vcard version vcard21 or vcard30
+	 * @param callback Callback function which is called when the operation is done or
+	 *        has failed.
+	 */
+	virtual void pullvCard (const std::string &address, const std::string &destinationFile, const std::string &vCardHandle, const std::string &vCardVersion, BluetoothPbapVCardFilterList &vCardFilters, BluetoothPbapTransferResultCallback callback) = 0;
+
 protected:
 	/**
 	 * @brief Retrieve the PBAP status observer
