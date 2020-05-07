@@ -229,48 +229,6 @@ public:
 		 *        Access: Device (read)
 		 */
 		SCAN_RECORD,
-		/**
-		 * @brief Current folder path of connected server device(PBAP)
-		 *
-		 *        Type: std::string
-		 *        Access: Device (read/write)
-		 **/
-		FOLDER,
-		/**
-		 * @brief The primary version counter shall increment on every completion of
-		 *        changes to any of the properties in the vCards as well as on insertion
-		 *        or removal of entries.(PBAP)
-		 *
-		 *        Type: std::string
-		 *        Access: Device (read)
-		 **/
-		PRIMARY_COUNTER,
-		/**
-		 * @brief The secondary version counter shall only increment on every completion of
-		 *        changes to the vCard’s N, FN, TEL, EMAIL, MAILER, ADR, X-BT-UCI properties
-		 *        as well as on insertion or removal of entries.(PBAP)
-		 *
-		 *        Type: std::string
-		 *        Access: Device (read)
-		 **/
-		SECONDERY_COUNTER,
-		/**
-		 * @brief The PSE shall return the DatabaseIdentifier application parameter containing
-		 *        the unique database identifier of the PSE.(PBAP)
-		 *
-		 *        Type: std::string
-		 *        Access: Device (read)
-		 **/
-		DATABASE_IDENTIFIER,
-				/**
-		 * @brief Indicate support for fixed image size.(PBAP)
-		 *
-		 *        The default value is false.
-		 *
-		 *        Type: bool
-		 *        Access: Device (read)
-		 **/
-		FIXED_IMAGE_SIZE
 	};
 
 	/**

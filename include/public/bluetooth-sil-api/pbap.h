@@ -26,22 +26,114 @@ const std::string BLUETOOTH_PROFILE_ID_PBAP = "PBAP";
 typedef uint64_t BluetoothPbapAccessRequestId;
 const BluetoothPbapAccessRequestId BLUETOOTH_PBAP_ACCESS_REQUEST_ID_INVALID = 0;
 
+
+/**
+ * @brief List of vCard filters.
+ */
+typedef std::vector<std::string> BluetoothPbapVCardFilterList;
+
 typedef std::map<std::string, std::string> BluetoothPbapVCardList;
+
+/**
+ * @brief Bluetooth Pbap Application Parameters
+ *
+ *        Describes Pbap Application Parameters.
+ */
+
+class BluetoothPbapApplicationParameters
+{
+public:
+
+	enum ApplicationParameters
+	{
+		/**
+		 * @brief Current folder path of connected server device(PBAP)
+		 *
+		 *        Type: std::string
+		 *        Access: Device (read/write)
+		 **/
+		FOLDER,
+		/**
+		 * @brief The primary version counter shall increment on every completion of
+		 *        changes to any of the properties in the vCards as well as on insertion
+		 *        or removal of entries.(PBAP)
+		 *
+		 *        Type: std::string
+		 *        Access: Device (read)
+		 **/
+		PRIMARY_COUNTER,
+		/**
+		 * @brief The secondary version counter shall only increment on every completion of
+		 *        changes to the vCard’s N, FN, TEL, EMAIL, MAILER, ADR, X-BT-UCI properties
+		 *        as well as on insertion or removal of entries.(PBAP)
+		 *
+		 *        Type: std::string
+		 *        Access: Device (read)
+		 **/
+		SECONDERY_COUNTER,
+		/**
+		 * @brief The PSE shall return the DatabaseIdentifier application parameter containing
+		 *        the unique database identifier of the PSE.(PBAP)
+		 *
+		 *        Type: std::string
+		 *        Access: Device (read)
+		 **/
+		DATABASE_IDENTIFIER,
+		/**
+		 * @brief Indicate support for fixed image size.(PBAP)
+		 *
+		 *        The default value is false.
+		 *
+		 *        Type: bool
+		 *        Access: Device (read)
+		 **/
+		FIXED_IMAGE_SIZE
+	};
+
+	/**
+	 * @brief Default c'tor
+	 */
+	BluetoothPbapApplicationParameters()
+	{
+	}
+
+	std::string getFolder() const { return folder; }
+	std::string getPrimaryCounter() const { return primaryCounter; }
+	std::string getSecondaryCounter() const { return secondaryCounter; }
+	std::string getDataBaseIdentifier() const { return databaseIdentifier; }
+	bool getFixedImageSize() { return fixedImageSize; }
+
+
+	void setFolder(const std::string &folder) { this->folder = folder; }
+	void setPrimaryCounter(const std::string &primaryCounter) { this->primaryCounter = primaryCounter; }
+	void setSecondaryCounter(const std::string &secondaryCounter) { this->secondaryCounter = secondaryCounter; }
+	void setDataBaseIdentifier(const std::string &databaseIdentifier) { this->databaseIdentifier = databaseIdentifier; }
+	void setFixedImageSize(bool fixedImageSize) { this->fixedImageSize = fixedImageSize; }
+
+private:
+	std::string folder;
+	std::string primaryCounter;
+	std::string secondaryCounter;
+	std::string databaseIdentifier;
+	bool fixedImageSize;
+};
+
 
 typedef std::function<void(BluetoothError, uint16_t size)>
 BluetoothPbapGetSizeResultCallback;
+
 typedef std::function<void(BluetoothError, BluetoothPbapVCardList&)>
 BluetoothPbapVCardListResultCallback;
+
 typedef std::function<void(BluetoothError, uint64_t bytesTransferred, bool finished)>
 BluetoothPbapTransferResultCallback;
 
 typedef std::function<void(BluetoothError, std::list<std::string> filters)>
 BluetoothPbapListFiltersResultCallback;
 
-/**
- * @brief List of vCard filters.
- */
-typedef std::vector<std::string> BluetoothPbapVCardFilterList;
+typedef std::function<void(BluetoothError, BluetoothPbapApplicationParameters &applicationParams)>
+BluetoothPbapApplicationParameterCallback;
+
 
 /**
  * @brief This interface is the base to implement an observer for the PBAP profile.
@@ -66,7 +158,7 @@ public:
 	 *
 	 * @param properties List of properties which have changed.
 	 */
-	virtual void profilePropertiesChanged(const std::string &adapterAddress, const std::string &address, BluetoothPropertiesList properties) { }
+	virtual void profilePropertiesChanged(const std::string &adapterAddress, const std::string &address, BluetoothPbapApplicationParameters &properties) { }
 };
 
 /**
@@ -154,7 +246,7 @@ public:
 	 * @param callback Callback function which is called when the operation is done or
 	 *        has failed.
 	 */
-	virtual void getPhoneBookProperties(const std::string &address, BluetoothPropertiesResultCallback callback) = 0;
+	virtual void getPhoneBookProperties(const std::string &address, BluetoothPbapApplicationParameterCallback callback) = 0;
 
 	/**
 	 * @brief To get the list of supported filters field.
