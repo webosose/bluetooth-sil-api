@@ -228,7 +228,7 @@ public:
 		 *        Type: std::uint8_t[] - byte array of scan record.
 		 *        Access: Device (read)
 		 */
-		SCAN_RECORD,
+		SCAN_RECORD
 	};
 
 	/**

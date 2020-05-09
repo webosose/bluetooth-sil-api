@@ -125,15 +125,14 @@ BluetoothPbapGetSizeResultCallback;
 typedef std::function<void(BluetoothError, BluetoothPbapVCardList&)>
 BluetoothPbapVCardListResultCallback;
 
-typedef std::function<void(BluetoothError, uint64_t bytesTransferred, bool finished)>
-BluetoothPbapTransferResultCallback;
-
-typedef std::function<void(BluetoothError, std::list<std::string> filters)>
+typedef std::function<void(BluetoothError, std::list<std::string>filters)>
 BluetoothPbapListFiltersResultCallback;
 
 typedef std::function<void(BluetoothError, BluetoothPbapApplicationParameters &applicationParams)>
 BluetoothPbapApplicationParameterCallback;
 
+typedef std::function<void(BluetoothError, std::string)>
+BluetoothGetPhoneBookResultCallback;
 
 /**
  * @brief This interface is the base to implement an observer for the PBAP profile.
@@ -159,6 +158,16 @@ public:
 	 * @param properties List of properties which have changed.
 	 */
 	virtual void profilePropertiesChanged(const std::string &adapterAddress, const std::string &address, BluetoothPbapApplicationParameters &properties) { }
+	/**
+	 * @brief The method is called when PhoneBook transfer status changes
+	 *
+	 * @param adapterAddress adapterAddress to which device is connected
+	 * @param address Address of the device
+	 * @param destinationPath path where Phonebook is getting stored
+	 * @param objectPath unique key for each transfer
+	 * @param state state of current transfer
+	 */
+	virtual void transferStatusChanged(const std::string &adapterAddress, const std::string &address, const std::string &destinationPath, const std::string &objectPath, const std::string &state) { }
 };
 
 /**
@@ -268,10 +277,39 @@ public:
 	 * @param destinationFile Destination file name
 	 * @param vCardHandle vcf handle of the vcf entries
 	 * @param vCardVersion vcard version vcard21 or vcard30
+	 * @param vCardFilters vcard supported filters
 	 * @param callback Callback function which is called when the operation is done or
 	 *        has failed.
 	 */
-	virtual void pullvCard (const std::string &address, const std::string &destinationFile, const std::string &vCardHandle, const std::string &vCardVersion, BluetoothPbapVCardFilterList &vCardFilters, BluetoothPbapTransferResultCallback callback) = 0;
+	virtual void pullvCard (const std::string &address, const std::string &destinationFile, const std::string &vCardHandle, const std::string &vCardVersion, BluetoothPbapVCardFilterList &vCardFilters, BluetoothResultCallback callback) = 0;
+	/**
+	 * @brief This method will fetch phonebook  from PSE device.
+	 *
+	 *        This method is only for the client side of PBAP(PCE) Role.
+	 *
+	 * @param address Address of the remote device
+	 * @param destinationFile Destination file name
+	 * @param vCardVersion vcard version vcard21 or vcard30
+	 * @param vCardFilters List of Vcard fileds which needs to be downloaded
+	 * @param startIndex Index from which phonebook needs to be downloaded
+	 * @param maxCount max Number of item which required to be downloaded
+	 * @param callback Callback function which is called when the operation is done or
+	 *        has failed.
+	 */
+	virtual void pullPhoneBook(const std::string &address,const std::string &destinationFile,const std::string &vCardVersion,BluetoothPbapVCardFilterList &vCardFilters, const uint16_t &startIndex, const uint16_t &maxCount, BluetoothGetPhoneBookResultCallback callback) = 0;
+	/**
+	 * @brief This method will Search for entries matching the given condition and return an array of vcard-listing data from PSE device.
+	 *
+	 *        This method is only for the client side of PBAP(PCE) Role.
+	 *
+	 * @param address Address of the remote device
+	 * @param searchOrder Order for search vcf entries
+	 * @param searchKey key for search vcf entries
+	 * @param searchValue vlaue for search vcf entries
+	 * @param callback Callback function which is called when the operation is done or
+	 *        has failed.
+	 */
+	virtual void searchPhoneBook (const std::string &address, const std::string &searchOrder, const std::string &searchKey, const std::string &searchValue, BluetoothPbapVCardListResultCallback callback) = 0;
 
 protected:
 	/**
