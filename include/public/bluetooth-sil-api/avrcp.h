@@ -499,6 +499,13 @@ typedef std::vector<BluetoothPlayerApplicationSettingsProperty> BluetoothPlayerA
 typedef std::vector<BluetoothAvrcpSupportedNotificationEvent> BluetoothAvrcpSupportedNotificationEventList;
 
 /**
+ * @brief Callback to return a list of properties asynchronously.
+ */
+typedef std::function<void(BluetoothError, const BluetoothPlayerApplicationSettingsPropertiesList &)>
+BluetoothPlayerApplicationSettingsPropertiesResultCallback;
+
+
+/**
  * @brief Callback to return a single property asynchronously.
  */
 typedef std::function<void(BluetoothError, const BluetoothPlayerApplicationSettingsProperty &prop)>
@@ -531,11 +538,27 @@ public:
 	 * @brief This method is called when a local device(CT) receives media meta data from a remote device(TG).
 	 *
 	 * @param metaData Meta data of the media
+	 * @param address Address of remote device
+	 */
+	virtual void mediaDataReceived(const BluetoothMediaMetaData &metaData, const std::string &address) {}
+
+	/**
+	 * @brief This method is called when a local device(CT) receives media meta data from a remote device(TG).
+	 *
+	 * @param metaData Meta data of the media
 	 * @param adapterAddress Adapater address of the local device
 	 * @param address Address of remote device
 	 */
 	virtual void mediaDataReceived(const BluetoothMediaMetaData &metaData, const std::string &adapterAddress,
 		const std::string &address) {}
+
+	/**
+	 * @brief This method is called when a local device(CT) receives media play status from a remote device(TG).
+	 *
+	 * @param playStatus Play status of the media
+	 * @param address Address of remote device
+	 */
+	virtual void mediaPlayStatusReceived(const BluetoothMediaPlayStatus &playStatus, const std::string &address) {}
 
 	/**
 	 * @brief This method is called when a local device(CT) receives media play status from a remote device(TG).
@@ -606,6 +629,17 @@ public:
 	virtual void supportedNotificationEventsReceived(const BluetoothAvrcpSupportedNotificationEventList &events, const std::string &address) {}
 
 	/**
+	 * @brief This method is called when a local device is connected with a remote device and receives supported notification events
+	 *        from a remote device.
+	 *
+	 * @param events List of supported notification events.
+	 * @param adapterAddress Address of adapter
+	 * @param address Address of remote device
+	 */
+	virtual void supportedNotificationEventsReceived(const BluetoothAvrcpSupportedNotificationEventList &events,
+			const std::string &adapterAddress, const std::string &address) {}
+
+	/**
 	 * @brief This method is called when the local device (CT) receives the player application settings from remote device (TG)
 	 *
 	 * @param properties Player application properties changed
@@ -674,6 +708,23 @@ public:
 	 */
 
 	virtual BluetoothError sendPassThroughCommand(const std::string &address, BluetoothAvrcpPassThroughKeyCode keyCode, BluetoothAvrcpPassThroughKeyStatus keyStatus) { return BLUETOOTH_ERROR_UNSUPPORTED; }
+
+	/**
+	 * @brief Perform a request to the SIL to retrieve all properties of the Bluetooth
+	 *        player application settings. The result of the operation is handed back with the supplied
+	 *        callback function.
+	 *
+	 *        NOTE: As this is a asynchronous operation the callback function can
+	 *        be called either after getPlayerApplicationSettingsProperties has returned to the caller
+	 *        or before.
+	 *
+	 * @param callback Callback function which is called when the operation is done or
+	 *        has failed.
+	 */
+	virtual void getPlayerApplicationSettingsProperties(BluetoothPlayerApplicationSettingsPropertiesResultCallback callback)
+	{
+		if (callback) callback(BLUETOOTH_ERROR_UNSUPPORTED, std::vector<BluetoothPlayerApplicationSettingsProperty>());
+	}
 
 	/**
 	 * @brief Retrieve a specific property of the Bluetooth player application settings.
