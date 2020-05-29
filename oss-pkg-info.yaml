@@ -1,0 +1,4 @@
+Open Source Software Package:
+- name: webOSOSE-bluetooth-sil-api
+  source: https://github.com/webosose/bluetooth-sil-api
+  license: Apache-2.0
