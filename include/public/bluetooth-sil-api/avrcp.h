@@ -136,6 +136,144 @@ enum BluetoothAvrcpSupportedNotificationEvent
 	EVENT_VOLUME_CHANGED = 0x0d
 };
 
+enum class BluetoothAvrcpItemType
+{
+	ITEM_TYPE_AUDIO,
+	ITEM_TYPE_VIDEO,
+	ITEM_TYPE_FOLDER
+};
+enum class BluetoothAvrcpPlayerType
+{
+	PLAYER_TYPE_AUDIO,
+	PLAYER_TYPE_VIDEO,
+	PLAYER_TYPE_AUDIO_BROADCAST,
+	PLAYER_TYPE_VIDEO_BROADCAST
+};
+
+class BluetoothPlayerInfo
+{
+public:
+	/**
+	 * @brief Default constructor
+	 */
+	BluetoothPlayerInfo() :
+	playerType(BluetoothAvrcpPlayerType::PLAYER_TYPE_AUDIO),
+	browsable(false),
+	searchable(false),
+	addressed(false) {}
+
+	/**
+	 * @brief Copy constructor
+	 */
+	BluetoothPlayerInfo(const BluetoothPlayerInfo &other) :
+	playerPath(other.getPath()),
+	name(other.getName()),
+	playerType(other.getType()),
+	addressed(other.getAddressed()),
+	browsable(other.getBrowsable()),
+	searchable(other.getSearchable()),
+	playListPath(other.getPlayListPath()) {}
+
+	/* Get functions for the member functions */
+	/**
+	 * @brief Retrieve media player path
+	 * @return Returns player path
+	 */
+	std::string getPath() const { return playerPath; }
+	/**
+	 * @brief Retrieve player name
+	 * @return Returns player name
+	 */
+	std::string getName() const { return name; }
+	/**
+	 * @brief Retrieve play list path of the media player
+	 * @return Returns play list path
+	 */
+	std::string getPlayListPath() const { return playListPath; }
+	/**
+	 * @brief Retrieve player type
+	 * @return Returns player type
+	 */
+	BluetoothAvrcpPlayerType getType() const { return playerType; }
+	/**
+	 * @brief Retrieve if the player is currently addressed.
+	 * @return Returns if the player is addressed or not
+	 *         true : Player is addressed
+	 *         false : Player is not addressed
+	 */
+	bool getAddressed() const { return addressed; }
+	/**
+	 * @browsable Retrieve if the player supports media content browsing
+	 * @returns Returns if the player is browsable or not.
+	 *          true : Player is browsable
+	 *          false : Player is not browsable
+	 */
+	bool getBrowsable() const { return browsable; }
+	/**
+	 * @browsable Retrieve if the player supports media content searching
+	 * @returns Returns if the player supports searching or not.
+	 *          true : Player supports searching
+	 *          false : Player does not support searching
+	 */
+	bool getSearchable() const { return searchable; }
+
+	/* Set functions for the member variables */
+	/**
+	 * @brief Set player path
+	 * @param playerPath Player path
+	 */
+	void setPath(const std::string &playerPath) { this->playerPath = playerPath; }
+	/**
+	 * @brief Set player name
+	 * @param name Player name
+	 */
+	void setName(const std::string &name) { this->name = name; }
+	/**
+	 * @brief Set play list path of the media player
+	 * @param playListPath Play list path
+	 */
+	void setPlayListPath(const std::string &playListPath) { this->playListPath = playListPath; }
+	/**
+	 * @brief Set player type
+	 * @param playerType Player type
+	 */
+	void setType(const BluetoothAvrcpPlayerType playerType) { this->playerType = playerType; }
+	/**
+	 * @brief Set if the player is addressed
+	 * @param addressed true: Player is addressed
+	 *                  false: Player is not addressed
+	 */
+	void setAddressed(const bool addressed) { this->addressed = addressed; }
+	/**
+	 * @brief Set if player supports media content browsing
+	 * @param browsable true: Player supports browsing
+	 *                  false: Player does not support browsing
+	 */
+	void setBrowsable(const bool browsable) { this->browsable = browsable; }
+	/**
+	 * @brief Set if player supports searching
+	 * @param searchable true: Player supports searching
+	 *                   false: Player does not support searching
+	 */
+	void setSearchable(const bool searchable) { this->searchable = searchable; }
+
+private:
+	/** Media Player object path */
+	std::string playerPath;
+	/** Media Player Name */
+	std::string name;
+	/** Media Player type */
+	BluetoothAvrcpPlayerType playerType;
+	/** True: If media player is addressed, False: If media player is not addressed */
+	bool addressed;
+	/** True: If media player is browsable, False: If media player is not browsable */
+	bool browsable;
+	/** True: If media player is searchable, False: If media player is not searchable */
+	bool searchable;
+	/** Now playing list path of the media player */
+	std::string playListPath;
+};
+
 /**
  * @brief Bluetooth media meta data
  *
@@ -261,6 +399,99 @@ private:
 	uint64_t trackNumber;
 	uint64_t trackCount;
 	uint64_t duration;
+};
+
+class BluetoothFolderItem
+{
+public:
+	/**
+	 * @brief Default constructor
+	 */
+	BluetoothFolderItem() :
+	type(BluetoothAvrcpItemType::ITEM_TYPE_AUDIO),
+	playable(false)
+	{
+
+	}
+
+	/**
+	 * @brief Copy constructor
+	 */
+	BluetoothFolderItem(const BluetoothFolderItem &other) :
+	name(other.getName()),
+	itemPath(other.getPath()),
+	type(other.getType()),
+	playable(other.getPlayable()),
+	metadata(other.getMetadata())
+	{}
+	/* Get functions for the member variables */
+	/**
+	 * @brief Retrieve the item name
+	 * @return Item name
+	 */
+	std::string getName() const { return name; }
+	/**
+	 * @brief Retrieve item path
+	 * @return Item path
+	 */
+	std::string getPath() const { return itemPath; }
+	/**
+	 * @brief Retrieve item type
+	 * @returns Item type
+	 */
+	BluetoothAvrcpItemType getType() const { return type; }
+	/**
+	 * @brief Retrieve metadata of the item. Metadata is avalid if the item
+	 * type is Audio or Video.
+	 * @return Metadata of the item
+	 */
+	BluetoothMediaMetaData getMetadata() const { return metadata; }
+	/**
+	 * @brief Retrieve if the item is playable
+	 * @return true: Item is playable
+	 *         false: Item is not playable
+	 */
+	bool getPlayable() const { return playable; }
+
+	/* Set functions for the member variables */
+	/**
+	 * @brief Set item name
+	 * @param name  Name of the item
+	 */
+	void setName(const std::string &name) { this->name = name; }
+	/**
+	 * @brief Set item path
+	 * @param itemPath Item path
+	 */
+	void setPath(const std::string &itemPath) { this->itemPath = itemPath; }
+	/**
+	 * @brief Set item type
+	 * @param type Item type
+	 */
+	void setType(const BluetoothAvrcpItemType &type) { this->type = type; }
+	/**
+	 * @brief Set item metadata
+	 * @param metadata Metadata of the item
+	 */
+	void setMetadata(const BluetoothMediaMetaData &metadata) { this->metadata = metadata; }
+	/**
+	 * @brief Set if the item is playable
+	 * @param playable true: Item is playable
+	 *                 false: Item is not playable
+	 */
+	void setPlayable(const bool playable) { this->playable = playable; }
+
+private:
+	/* Displayable item name*/
+	std::string name;
+	/* Item path */
+	std::string itemPath;
+	/* Item type */
+	BluetoothAvrcpItemType type;
+	/* If the item is playable */
+	bool playable;
+	/* Metadata of the item. Available if the type is audio or video */
+	BluetoothMediaMetaData metadata;
 };
 
 /**
@@ -499,6 +730,17 @@ typedef std::vector<BluetoothPlayerApplicationSettingsProperty> BluetoothPlayerA
 typedef std::vector<BluetoothAvrcpSupportedNotificationEvent> BluetoothAvrcpSupportedNotificationEventList;
 
 /**
+ * @brief List of items in the current browsing folder.
+ */
+typedef std::list<BluetoothFolderItem>  BluetoothFolderItemList;
+
+/**
+ * @brief List of available players received from AVRCP TG
+ */
+typedef std::list<BluetoothPlayerInfo> BluetothPlayerInfoList;
+
+
+/**
  * @brief Callback to return a list of properties asynchronously.
  */
 typedef std::function<void(BluetoothError, const BluetoothPlayerApplicationSettingsPropertiesList &)>
@@ -510,6 +752,24 @@ BluetoothPlayerApplicationSettingsPropertiesResultCallback;
  */
 typedef std::function<void(BluetoothError, const BluetoothPlayerApplicationSettingsProperty &prop)>
 BluetoothPlayerApplicationSettingsPropertyResultCallback;
+
+/**
+ * @brief Callback to return the total number of items in the current folder asynchronously.
+ */
+typedef std::function<void(BluetoothError, const uint32_t numberOfItems)>
+BluetoothAvrcpBrowseTotalNumberOfItemsCallback;
+
+/**
+ * @brief Callback to return the search result path asynchronously.
+ */
+typedef std::function<void(BluetoothError, const std::string searchListPath)>
+BluetoothAvrcpBrowseSearchListCallback;
+
+/**
+ * @brief Callback to return the items in the current folder asynchronously.
+ */
+typedef std::function<void(BluetoothError, const BluetoothFolderItemList &folderItems)>
+BluetoothAvrcpBrowseFolderItemsCallback;
 
 /**
  * @brief This interface is the base to implement an observer for the Bluetooth
@@ -649,6 +909,24 @@ public:
 	virtual void playerApplicationSettingsReceived(const BluetoothPlayerApplicationSettingsPropertiesList &properties,
 		const std::string &adapterAddress, const std::string &address) {};
 
+	/**
+	 * @brief This method is called when local device (CT) receives the player list from remote device (TG)
+	 *
+	 * @param playerInfoList Player information
+	 * @param adapterAddress Adapater address of the local device
+	 * @param address Address of remote device
+	 */
+	virtual void playerInfoReceived(const BluetothPlayerInfoList &playerInfoList, const std::string &adapterAddress, const std::string &address) {};
+
+	/**
+	 * @brief This method is called whenever browsing folder changes.
+	 *
+	 * @param currentFolder Current browsing folder
+	 * @param adapterAddress Adapater address of the local device
+	 * @param address Address of remote device
+	 */
+	virtual void currentFolderReceived(const std::string currentFolder,
+									   const std::string &adapterAddress, const std::string &address){};
 };
 
 /**
@@ -784,6 +1062,92 @@ public:
 	 * @param volume The requested volume level in percentage, range 0 ~ 127.
 	 */
 	virtual BluetoothError setAbsoluteVolume(const std::string &address, int volume) { return BLUETOOTH_ERROR_UNSUPPORTED; }
+
+	/**
+	 * Browsing APIs
+	 */
+	/**
+	 * @brief Gets the total number of items in the current folder
+	 *
+	 * @param callback Callback function which is called to return number of items asynchronously in case of
+	 *                 success or to inform the error when operation is failed.
+	 */
+	virtual void getNumberOfItems(BluetoothAvrcpBrowseTotalNumberOfItemsCallback callback)
+	{
+		if (callback)
+			callback(BLUETOOTH_ERROR_UNSUPPORTED, 0);
+	}
+	/**
+	 * @brief Gets the items in the current folder
+	 *
+	 * @param startIndex The offset within the listing of the item, which
+	 *                   should be the first returned item.
+	 *                   The first element in the listing is at offset 0
+	 * @param endIndex The offset within the listing of the item, which should
+	 *                 be the final returned item. endIndex shoul be greater
+	 *                 than startIndex and
+	 *                 less than total number of items in the current folder
+	 * @param callback Callback function which is called to return the items asynchronously in case of
+	 *                 success or to inform the error when operation is failed. The list items sent in
+	 *                 the callback will be freed once the callback returns.
+	 */
+	virtual void getFolderItems(uint32_t startIndex, uint32_t endIndex,
+								BluetoothAvrcpBrowseFolderItemsCallback callback)
+	{
+		BluetoothFolderItemList folderItems;
+		if (callback)
+			callback(BLUETOOTH_ERROR_UNSUPPORTED, folderItems);
+	}
+	/**
+	 * @brief Issues command to play the browsed item
+	 *
+	 * @param itemPath Object path of the audio/video item to play
+	 * @return Returns error code.
+	 *         Possible errors: BLUETOOTH_ERROR_AVRCP_ITEM_NOT_PLAYABLE
+	 *                          BLUETOOTH_ERROR_FAIL,
+	 *                          BLUETOOTH_ERROR_NONE,
+	 *                          BLUETOOTH_ERROR_NOT_ALLOWED
+	 */
+	virtual BluetoothError playItem(const std::string &itemPath) { return BLUETOOTH_ERROR_UNSUPPORTED; }
+
+	/**
+	 * @brief Changes the current folder for browsing. This API can be called
+	 * with path of the folder to change to, that is one level up or down to
+	 * the current folder
+	 *
+	 * @param itemPath Object path of the folder item to change to
+	 * @return Returns error code.
+	 *         Possible errors: BLUETOOTH_ERROR_AVRCP_NOT_A_FOLDER
+	 *                          BLUETOOTH_ERROR_FAIL,
+	 *                          BLUETOOTH_ERROR_NONE,
+	 *                          BLUETOOTH_ERROR_NOT_ALLOWED
+	 */
+	virtual BluetoothError changePath(const std::string &itemPath) { return BLUETOOTH_ERROR_UNSUPPORTED; }
+	/**
+	 * @brief Adds the playable item to the now playing list.
+	 *
+	 * @param itemPath Object path playable audio/video item to add to now
+	 * playing list
+	 * @return Returns error code.
+	 *         Possible errors: BLUETOOTH_ERROR_AVRCP_ITEM_NOT_PLAYABLE
+	 *                          BLUETOOTH_ERROR_FAIL,
+	 *                          BLUETOOTH_ERROR_NONE,
+	 *                          BLUETOOTH_ERROR_NOT_ALLOWED
+	 */
+	virtual BluetoothError addToNowPlaying(const std::string &itemPath) { return BLUETOOTH_ERROR_UNSUPPORTED; }
+	/**
+	 * @brief Searches the searchString in the current folder and its subfolders
+	 *
+	 * @param searchString String to search
+	 * @param callback Callback function which is called to return the path to the search list on success
+	 *                 or to return error in case of failure.
+	 */
+	virtual void search(const std::string &searchString,
+						BluetoothAvrcpBrowseSearchListCallback callback)
+	{
+		if (callback)
+			callback(BLUETOOTH_ERROR_UNSUPPORTED, "");
+	}
 
 protected:
 	/**
