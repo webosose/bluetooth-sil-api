@@ -226,6 +226,7 @@ private:
 	std::string mask;
 };
 
+
 /**
  * @brief Bluetooth Low Energy Service Data
  *
@@ -380,7 +381,8 @@ public:
 	/**
 	 * @brief Default c'tor
 	 */
-	BluetoothLeDiscoveryFilter()
+	BluetoothLeDiscoveryFilter() :
+		advertisingType(0x00)
 	{
 	}
 
@@ -393,7 +395,8 @@ public:
 		name(other.getName()),
 		serviceUuid(other.getServiceUuid()),
 		serviceData(other.getServiceData()),
-		manufacturerData(other.getManufacturerData())
+		manufacturerData(other.getManufacturerData()),
+		advertisingType(other.getAdvType())
 	{
 	}
 
@@ -426,6 +429,12 @@ public:
 	 * @return manufacturerData the manufacturer Data
 	 */
 	BluetoothManufacturerData getManufacturerData() const { return manufacturerData; }
+
+	/**
+	 * @brief Retrieve the manufacturer Data
+	 * @return manufacturerData the manufacturer Data
+	 */
+	uint8_t getAdvType() const { return advertisingType; }
 
 	/**
 	 * @brief Check if filter is empty
@@ -476,12 +485,21 @@ public:
 	 */
 	void setManufacturerData(BluetoothManufacturerData manufacturerData) { this->manufacturerData = manufacturerData; }
 
+	/**
+	 * @brief Set the manufacturer Data
+	 *
+	 * @param manufacturerData the manufacturer Data
+	 */
+	void setAdvType(uint8_t advertisingType) { this->advertisingType = advertisingType; }
+
+
 private:
 	std::string address;
 	std::string name;
 	BluetoothLeServiceUuid serviceUuid;
 	BluetoothLeServiceData serviceData;
 	BluetoothManufacturerData manufacturerData;
+	uint8_t advertisingType;
 };
 
 

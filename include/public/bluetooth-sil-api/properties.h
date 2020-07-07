@@ -229,7 +229,6 @@ public:
 		 *        Access: Device (read)
 		 */
 		SCAN_RECORD
-
 	};
 
 	/**

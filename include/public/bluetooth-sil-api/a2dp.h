@@ -1,4 +1,4 @@
-// Copyright (c) 2015-2018 LG Electronics, Inc.
+// Copyright (c) 2015-2020 LG Electronics, Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -326,6 +326,14 @@ public:
 	virtual void stateChanged(std::string address, BluetoothA2dpProfileState state) { }
 
 	/**
+	 * @brief The method is called when the profile state is changed
+	 * @param adapterAddress address of adapter
+	 * @param address Address of the device
+	 * @param state current playing state of the A2DP profile.
+	*/
+	virtual void stateChanged(std::string adapterAddress, std::string address, BluetoothA2dpProfileState state) { }
+
+	/**
 	 * @brief The method is called when A2DP audio socket is created
 	 *
 	 * @param address Address of the remote device
@@ -360,6 +368,15 @@ public:
 	 * @param sbcConfiguration aptX configuration
 	*/
 	virtual void aptxConfigurationChanged(const std::string &address, const BluetoothAptxConfiguration &aptxConfiguration) { }
+
+	/**
+	 * @brief The method is called when A2DP remote device delay changed
+	 *
+	 * @param adapterAddress address of the adapter
+	 * @param address Address of the remote device
+	 * @param delay is delay reported from remote device
+	*/
+	virtual void delayReportChanged(const std::string &adapterAddress, const std::string &address, uint16_t delay) { }
 };
 
 /**
@@ -407,6 +424,20 @@ public:
 	 * @return BLUETOOTH_ERROR_NONE when operation was successful another error code otherwise
 	 */
 	virtual BluetoothError setSbcEncoderBitpool(const std::string &address, uint8_t bitpool) { return BLUETOOTH_ERROR_UNSUPPORTED; }
+
+	/**
+	 * @brief Enable/Disable delay reporting
+	 *
+	 * @param state Set state of delay reporting
+	 */
+	virtual BluetoothError setDelayReportingState(bool state) { return BLUETOOTH_ERROR_UNSUPPORTED; }
+
+	/**
+	 * @brief Get delay reporting state
+	 *
+	 * @param state Get state of delay reporting
+	 */
+	virtual BluetoothError getDelayReportingState(bool &state) { return BLUETOOTH_ERROR_UNSUPPORTED; }
 
 protected:
 	/**

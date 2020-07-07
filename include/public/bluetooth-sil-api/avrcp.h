@@ -1,4 +1,4 @@
-// Copyright (c) 2015-2018 LG Electronics, Inc.
+// Copyright (c) 2015-2020 LG Electronics, Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -504,6 +504,7 @@ typedef std::vector<BluetoothAvrcpSupportedNotificationEvent> BluetoothAvrcpSupp
 typedef std::function<void(BluetoothError, const BluetoothPlayerApplicationSettingsPropertiesList &)>
 BluetoothPlayerApplicationSettingsPropertiesResultCallback;
 
+
 /**
  * @brief Callback to return a single property asynchronously.
  */
@@ -542,6 +543,16 @@ public:
 	virtual void mediaDataReceived(const BluetoothMediaMetaData &metaData, const std::string &address) {}
 
 	/**
+	 * @brief This method is called when a local device(CT) receives media meta data from a remote device(TG).
+	 *
+	 * @param metaData Meta data of the media
+	 * @param adapterAddress Adapater address of the local device
+	 * @param address Address of remote device
+	 */
+	virtual void mediaDataReceived(const BluetoothMediaMetaData &metaData, const std::string &adapterAddress,
+		const std::string &address) {}
+
+	/**
 	 * @brief This method is called when a local device(CT) receives media play status from a remote device(TG).
 	 *
 	 * @param playStatus Play status of the media
@@ -550,22 +561,34 @@ public:
 	virtual void mediaPlayStatusReceived(const BluetoothMediaPlayStatus &playStatus, const std::string &address) {}
 
 	/**
+	 * @brief This method is called when a local device(CT) receives media play status from a remote device(TG).
+	 *
+	 * @param playStatus Play status of the media
+	 * @param adapterAddress Adapater address of the local device
+	 * @param address Address of remote device
+	 */
+	virtual void mediaPlayStatusReceived(const BluetoothMediaPlayStatus &playStatus, const std::string &adapterAddress,
+		const std::string &address) {}
+
+	/**
 	 * @brief This method is called when the volume has been changed locally on the TG, or what the actual volume
 	 *        level is following use of relative volume commands.
 	 *
 	 * @param volume The changed volume level, range 0 ~ 127.
 	 * @param address Address of remote device
 	 */
-	virtual void volumeChanged(int volume, const std::string &address) {}
+	virtual void volumeChanged(int volume, const std::string &adapterAddress ,const std::string &address) {}
 
 	/**
 	 * @brief This method is called when a local device receives PASS THROUGH command from a remote device.
 	 *        from a remote device.
 	 *
 	 * @param features The remote features
+	 * @param adapterAddress address of adapter
 	 * @param address Address of remote device
 	 */
-	virtual void passThroughCommandReceived(BluetoothAvrcpPassThroughKeyCode keyCode, BluetoothAvrcpPassThroughKeyStatus keyStatus, const std::string &address) {}
+	virtual void passThroughCommandReceived(BluetoothAvrcpPassThroughKeyCode keyCode, BluetoothAvrcpPassThroughKeyStatus keyStatus,
+											const std::string &adapterAddress, const std::string &address) {}
 
 	/**
 	 * @brief This method is called when a local device is connected with a remote device and receives remote features
@@ -587,6 +610,16 @@ public:
 	virtual void remoteFeaturesReceived(BluetoothAvrcpRemoteFeatures features, const std::string &address, const std::string &role) {}
 
 	/**
+	 * @brief This method is called when a local device is connected with a remote device and receives remote features
+	 * 	from a remote device.
+	 * @param features The remote feautures
+	 * @param adapterAddress Address of adapter
+	 * @param address Address of remote device
+	 * @param role Role of remote device. Should be one of "CT" or "TG".(CT = Controller, TG = Target)
+	 */
+
+	virtual void remoteFeaturesReceived(BluetoothAvrcpRemoteFeatures features, const std::string &adapterAddress, const std::string &address, const std::string &role) {}
+	/**
 	 * @brief This method is called when a local device is connected with a remote device and receives supported notification events
 	 *        from a remote device.
 	 *
@@ -594,6 +627,27 @@ public:
 	 * @param address Address of remote device
 	 */
 	virtual void supportedNotificationEventsReceived(const BluetoothAvrcpSupportedNotificationEventList &events, const std::string &address) {}
+
+	/**
+	 * @brief This method is called when a local device is connected with a remote device and receives supported notification events
+	 *        from a remote device.
+	 *
+	 * @param events List of supported notification events.
+	 * @param adapterAddress Address of adapter
+	 * @param address Address of remote device
+	 */
+	virtual void supportedNotificationEventsReceived(const BluetoothAvrcpSupportedNotificationEventList &events,
+			const std::string &adapterAddress, const std::string &address) {}
+
+	/**
+	 * @brief This method is called when the local device (CT) receives the player application settings from remote device (TG)
+	 *
+	 * @param properties Player application properties changed
+	 * @param adapterAddress Adapater address of the local device
+	 * @param address Address of remote device
+	 */
+	virtual void playerApplicationSettingsReceived(const BluetoothPlayerApplicationSettingsPropertiesList &properties,
+		const std::string &adapterAddress, const std::string &address) {};
 
 };
 

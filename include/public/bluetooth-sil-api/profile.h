@@ -1,4 +1,4 @@
-// Copyright (c) 2015-2018 LG Electronics, Inc.
+// Copyright (c) 2015-2019 LG Electronics, Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -36,6 +36,14 @@ public:
 	 * @param properties List of properties which have changed.
 	 */
 	virtual void propertiesChanged(const std::string &address, BluetoothPropertiesList properties) { }
+	/**
+	 * @brief This method is called when a property of the profile regarding a specific
+	 *        device has changed.
+	 * @param adapterAddress  Address of adapter
+	 * @param address Device address of the device properties has changed for
+	 * @param properties List of properties which have changed.
+	 */
+	virtual void propertiesChanged(const std::string &adapterAddress, const std::string &address, BluetoothPropertiesList properties) { }
 };
 
 /**

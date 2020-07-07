@@ -24,6 +24,7 @@
 #include <memory>
 #include <typeinfo>
 #include <stdexcept>
+#include <list>
 
 /*
  * The complete API is too large to be manageable as a single file and hence
