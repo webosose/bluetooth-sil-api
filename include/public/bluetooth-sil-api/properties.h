@@ -228,7 +228,21 @@ public:
 		 *        Type: std::uint8_t[] - byte array of scan record.
 		 *        Access: Device (read)
 		 */
-		SCAN_RECORD
+		SCAN_RECORD,
+		/**
+		 * @brief MAP Instance which represents the available Map Instances name of a device.
+		 *
+		 *        Type: std::vector<std::string>
+		 *        Access: Device (read)
+		 **/
+		MAP_INSTANCES_NAME,
+		/**
+		 * @brief Indicates supported message type of a device for MAP profile.
+		 *
+		 *        Type: std::map<std::string, std::vector<std::string>>
+		 *        Access: Device (read)
+		 **/
+		MAP_SUPPORTED_MESSAGE_TYPE
 	};
 
 	/**

@@ -49,6 +49,7 @@
 #include <bluetooth-sil-api/uuid.h>
 #include <bluetooth-sil-api/gatt.h>
 #include <bluetooth-sil-api/pbap.h>
+#include <bluetooth-sil-api/map.h>
 #include <bluetooth-sil-api/avrcp.h>
 #include <bluetooth-sil-api/spp.h>
 #include <bluetooth-sil-api/hfp.h>

@@ -1,4 +1,4 @@
-// Copyright (c) 2015-2018 LG Electronics, Inc.
+// Copyright (c) 2015-2020 LG Electronics, Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -77,6 +77,10 @@ enum BluetoothError
 	BLUETOOTH_ERROR_ALREADY_CONNECTED_ONE_DEVICE,
 	/** Select folder to perform operation **/
 	BLUETOOTH_ERROR_PBAP_CALL_SELECT_FOLDER_TYPE,
+	/** Item corresponding to the path passed is not playable */
+	BLUETOOTH_ERROR_AVRCP_ITEM_NOT_PLAYABLE,
+	/** Item is not a folder */
+	BLUETOOTH_ERROR_AVRCP_NOT_A_FOLDER
 };
 
 /**
