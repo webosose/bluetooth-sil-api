@@ -33,6 +33,8 @@ const std::string BLUETOOTH_PROFILE_ID_MAP = "MAP";
  */
 typedef std::function<void(BluetoothError, const std::string& )> BluetoothMapCallback;
 
+typedef std::function<void(BluetoothError, std::list<std::string>filters)>
+BluetoothMapListFiltersResultCallback;
 /**
  * @brief This interface is the base to implement an observer for the MAP profile.
  */
@@ -84,12 +86,25 @@ public:
 	 *        If not connected the callback will return immediately and the operation
 	 *        marked as succeeded.
 	 *
-	 * @param address Address of the device to disconnect
+	 * @param sessionKey Unique identifier of device Address of the remote device to disconnect
 	 * @param sessionId Unique identifier of a session which was returned from map/connect.
 	 * @param callback Callback function which is called when the operation is done or
 	 *        has failed.
 	 */
-	virtual void disconnect(const std::string &address, const std::string &sessionId, BluetoothMapCallback callback) = 0;
+	virtual void disconnect(const std::string &sessionKey, const std::string &sessionId, BluetoothMapCallback callback) = 0;
+
+	/**
+	 * @brief To get the list of supported filters field.
+	 *
+	 *        This method is only for MCE to get the list of filters.
+	 *
+	 * @param sessionKey Unique identifier of device Address of the remote device
+	 * @param sessionId Unique identifier of a session which was returned from map/connect.
+	 * @param callback Callback function which is called when the operation is done or
+	 *        has failed with list of supported filters.
+	 */
+	virtual void getMessageFilters(const std::string &sessionKey, const std::string &sessionId, BluetoothMapListFiltersResultCallback callback) = 0;
+
 protected:
 	/**
 	 * @brief Retrieve the MAP status observer
