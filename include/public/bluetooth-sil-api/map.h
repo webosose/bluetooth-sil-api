@@ -35,6 +35,8 @@ typedef std::function<void(BluetoothError, const std::string& )> BluetoothMapCal
 
 typedef std::function<void(BluetoothError, std::list<std::string>filters)>
 BluetoothMapListFiltersResultCallback;
+
+typedef std::function<void(BluetoothError, std::vector<std::string>&)>BluetoothMapGetFoldersCallback;
 /**
  * @brief This interface is the base to implement an observer for the MAP profile.
  */
@@ -94,11 +96,23 @@ public:
 	virtual void disconnect(const std::string &sessionKey, const std::string &sessionId, BluetoothMapCallback callback) = 0;
 
 	/**
+	 * @brief To get folder list of a connected MAS session.
+	 *
+	 * @param sessionKey Unique identifier of connected MAP insatnce(address_instanceName)
+	 * @param sessionId Unique identifier of a session which was returned from map/connect.
+	 * @param startOffset start index of folder listing.
+	 * @param maxCount max number of items which can be listed.
+	 * @param callback Callback function which is called when the operation is done or
+	 *        has failed.
+	 */
+	virtual void getFolderList(const std::string &sessionKey, const std::string &sessionId, const uint16_t &startOffset, const uint16_t &maxCount, BluetoothMapGetFoldersCallback callback) = 0;
+
+	/**
 	 * @brief To get the list of supported filters field.
 	 *
 	 *        This method is only for MCE to get the list of filters.
 	 *
-	 * @param sessionKey Unique identifier of device Address of the remote device
+	 * @param sessionKey Unique identifier of connected MAP insatnce(address_instanceName)
 	 * @param sessionId Unique identifier of a session which was returned from map/connect.
 	 * @param callback Callback function which is called when the operation is done or
 	 *        has failed with list of supported filters.
