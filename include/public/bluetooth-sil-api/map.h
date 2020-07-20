@@ -119,6 +119,17 @@ public:
 	 */
 	virtual void getMessageFilters(const std::string &sessionKey, const std::string &sessionId, BluetoothMapListFiltersResultCallback callback) = 0;
 
+	/**
+	 * @brief To set folder of a connected MAS session.
+	 *
+	 * @param sessionKey Unique identifier of connected MAP insatnce(address_instanceName)
+	 * @param sessionId Unique identifier of a session which was returned from map/connect.
+	 * @param folder name of the folder or path to the folder.
+	 * @param callback Callback function which is called when the operation is done or
+	 *		  has failed.
+	 */
+	 virtual void setFolder(const std::string &sessionKey, const std::string &sessionId, const std::string &folder, BluetoothResultCallback callback) = 0;
+
 protected:
 	/**
 	 * @brief Retrieve the MAP status observer

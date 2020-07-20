@@ -80,7 +80,9 @@ enum BluetoothError
 	/** Item corresponding to the path passed is not playable */
 	BLUETOOTH_ERROR_AVRCP_ITEM_NOT_PLAYABLE,
 	/** Item is not a folder */
-	BLUETOOTH_ERROR_AVRCP_NOT_A_FOLDER
+	BLUETOOTH_ERROR_AVRCP_NOT_A_FOLDER,
+	/** Requested folder is not available */
+	BLUETOOTH_ERROR_MAP_FOLDER_NOT_FOUND
 };
 
 /**
