@@ -49,6 +49,13 @@ public:
 		 **/
 		ALIAS,
 		/**
+		 * @brief Interface name of the Bluetooth adapter.
+		 *
+		 *        Type: std::string
+		 *        Access: Adapter (read)
+		 **/
+		INTERFACE_NAME,
+		/**
 		 * @brief Bluetooth address of the Bluetooth adapter/device.
 		 *
 		 *        Type: std::string
