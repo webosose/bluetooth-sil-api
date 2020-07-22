@@ -430,6 +430,30 @@ public:
 	 */
 	 virtual void getMessageList(const std::string &sessionKey, const std::string &sessionId, const std::string &folder, const BluetoothMapPropertiesList &filters, BluetoothMapGetMessageListCallback callback) = 0;
 
+	/**
+	 * @brief To get Message of a connected MAS session.
+	 *
+	 * @param sessionKey Unique identifier of connected MAP insatnce(address_instanceName)
+	 * @param messageHandle Indicates the message handle.
+	 * @param attachment The attachment of a message are to be included in the bMessage object returned by the MSE.
+	 * @param destinationFile Destination file name.
+	 * @param callback Callback function which is called when the operation is done or
+	 *		  has failed.
+	 */
+	 virtual void getMessage(const std::string &sessionKey, const std::string &messageHandle, bool attachment, const std::string &destinationFile, BluetoothResultCallback callback) = 0;
+
+	 /* @brief To modify the status of a specific message based on messagehandle
+	 *
+	 * @param sessionKey Unique identifier of connected MAP insatnce(address_instanceName)
+	 * @param messageHandle Indicates the message handle.
+	 * @param statusIndicator This Param shall be used to indicate which status
+			  information is to be modified
+	 * @param statusValue status value
+	 * @param callback function which is called when the operation is done or
+	 *		  has failed.
+	 */
+	 virtual void setMessageStatus(const std::string &sessionKey, const std::string &messageHandle, const std::string &statusIndicator, bool statusValue, BluetoothResultCallback callback) = 0;
+
 protected:
 	/**
 	 * @brief Retrieve the MAP status observer

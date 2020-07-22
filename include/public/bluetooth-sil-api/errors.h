@@ -82,7 +82,9 @@ enum BluetoothError
 	/** Item is not a folder */
 	BLUETOOTH_ERROR_AVRCP_NOT_A_FOLDER,
 	/** Requested folder is not available */
-	BLUETOOTH_ERROR_MAP_FOLDER_NOT_FOUND
+	BLUETOOTH_ERROR_MAP_FOLDER_NOT_FOUND,
+	/** Requested message handle is not available */
+	BLUETOOTH_ERROR_MAP_MESSAGE_HANDLE_NOT_FOUND
 };
 
 /**
