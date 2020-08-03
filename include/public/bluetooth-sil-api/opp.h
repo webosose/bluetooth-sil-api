@@ -56,12 +56,13 @@ public:
 	 *        rejection the same on both devices.
 	 *
 	 * @param transferId Id of the incoming transfer
+	 * @param adapterAddress Address of the Adapter
 	 * @param address Address of the device
 	 * @param deviceName deviceName of the device
 	 * @param fileName fileName of the push file
 	 * @param fileSize fileSize of the push file
 	*/
-	virtual void transferConfirmationRequested(BluetoothOppTransferId transferId, const std::string &address,
+	virtual void transferConfirmationRequested(BluetoothOppTransferId transferId, const std::string &adapterAddress, const std::string &address,
 	                                         const std::string &deviceName, const std::string &fileName,
 	                                         uint64_t fileSize) { }
 
