@@ -1,4 +1,4 @@
-// Copyright (c) 2015-2018 LG Electronics, Inc.
+// Copyright (c) 2015-2020 LG Electronics, Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -36,21 +36,23 @@ public:
 	/**
 	 * @brief This method is called when the channel's state gets changed.
 	 *
+	 * @param adapterAddress Address of the Adapter
 	 * @param address Address of the remote device
 	 * @param uuid UUID used by the server application
 	 * @param channelId Unique ID of a SPP channel
 	 * @param state State of the channel
 	 */
-	virtual void channelStateChanged(const std::string &address, const std::string &uuid, const BluetoothSppChannelId channelId, const bool state) {}
+	virtual void channelStateChanged(const std::string &adapterAddress, const std::string &address, const std::string &uuid, const BluetoothSppChannelId channelId, const bool state) {}
 
 	/**
 	 * @brief This method is called when some data received through the channal.
 	 *
 	 * @param channelId Unique ID of a SPP channel
+	 * @param adapterAddress Address of the Adapter
 	 * @param data Data to be received
 	 * @param size Data size in bytes
 	 */
-	virtual void dataReceived(const BluetoothSppChannelId channelId, const uint8_t *data, const uint32_t size) {}
+	virtual void dataReceived(const BluetoothSppChannelId channelId, const std::string &adapterAddress, const uint8_t *data, const uint32_t size) {}
 };
 
 /**
