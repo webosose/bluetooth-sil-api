@@ -39,20 +39,6 @@ BluetoothMapListFiltersResultCallback;
 typedef std::function<void(BluetoothError, std::vector<std::string>&)>BluetoothMapGetFoldersCallback;
 
 /**
- * @brief This interface is the base to implement an observer for the MAP profile.
- */
-class BluetoothMapStatusObserver
-{
-public:
-	/**
-	 * @brief The method is called when a MAP specific property changes
-	 *
-	 * @param properties List of properties which have changed.
-	 */
-	virtual void profilePropertiesChanged(const std::string &adapterAddress, const std::string &address) { }
-};
-
-/**
  * @brief The BluetoothMapProperty class abstracts several properties of message or filters of getMessageList.
  */
 class BluetoothMapProperty
@@ -224,7 +210,28 @@ public:
 		 *        Type: boolean
 		 *        Access: Service (Read) , SIL(write)
 		 **/
-		SENT
+		SENT,
+		/**
+		 * @brief Message path, indicates when the message is sent or received.
+		 *
+		 *        Type: sting
+		 *        Access: Service (Read) , SIL(write)
+		 **/
+		OBJECTPATH,
+		/**
+		 * @brief Message event type, indicates when the any event is received.
+		 *
+		 *        Type: sting
+		 *        Access: Service (Read) , SIL(write)
+		 **/
+		EVENTTYPE,
+		/**
+		 * @brief Previous Folder which the message belongs to.
+		 *
+		 *        Type: sting
+		 *        Access: Service (Read) , SIL(write)
+		 **/
+		OLDFOLDER
 	};
 
 	/**
@@ -340,12 +347,28 @@ typedef std::vector<std::pair<std::string, BluetoothMapPropertiesList>> Bluetoot
 typedef std::function<void(BluetoothError, BluetoothMessageList &)>BluetoothMapGetMessageListCallback;
 
 /**
+ * @brief This interface is the base to implement an observer for the MAP profile.
+ */
+class BluetoothMapStatusObserver
+{
+public:
+	/**
+	 * @brief The method is called when a MAP specific property changes
+	 *
+	 * @param adapterAddress adapterAddress to which device is connected
+	 * @param sessionId Unique identifier of a session which was returned from map/connect.
+	 * @param properties List of event properties which have changed.
+	 */
+	virtual void messageNotificationEvent(const std::string &adapterAddress, const std::string &sessionId, BluetoothMessageList &properties) { }
+};
+
+/**
  * @brief Interface to abstract the operations for the MAP bluetooth profile.
  */
 class BluetoothMapProfile
 {
 public:
-	BluetoothMapProfile() { }
+	BluetoothMapProfile() :  observer(0) { }
 
 	virtual ~BluetoothMapProfile() { }
 
@@ -453,6 +476,21 @@ public:
 	 *		  has failed.
 	 */
 	 virtual void setMessageStatus(const std::string &sessionKey, const std::string &messageHandle, const std::string &statusIndicator, bool statusValue, BluetoothResultCallback callback) = 0;
+
+	 /* @brief To transfer message to the MSE
+	 *
+	 * @param sessionKey unique identifier of connected MAP insatnce(address_instanceName)
+	 * @param sourceFile file which needs to be transferred.
+	 * @param folder destination folder of the MSE.
+	 * @param charset type of character set in source file.
+	 * @param transparent this parameter  used to indicate to the MSE that no copy of the
+			  message shall be kept in the 'Sent' folder after the message was sent.
+	 * @param retry this indicate whether successive attempts at sending the message shall
+			  be carried out in case the cellular network
+	 * @param callback function which is called when the operation is done or
+			  has failed.
+	 */
+	 virtual void pushMessage(const std::string &sessionKey, const std::string &sourceFile, const std::string &folder, const std::string &charset, bool transparent, bool retry, BluetoothMapCallback callback) = 0;
 
 protected:
 	/**
