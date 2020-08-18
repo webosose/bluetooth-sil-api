@@ -787,12 +787,34 @@ public:
 	virtual void mediaMetaDataRequested(BluetoothAvrcpRequestId requestId, const std::string &address) {}
 
 	/**
+	 * @brief This method is called when a remote device requests for media meta data.
+	 *
+	 * @param requestId Id of the media metadata request
+	 * @param adapterAddress Adapater address of the local device
+	 * @param address Address of remote device
+	 */
+	virtual void mediaMetaDataRequested(BluetoothAvrcpRequestId requestId,
+										const std::string &adapterAddress,
+										const std::string &address) {}
+
+	/**
 	 * @brief This method is called when a remote device requests for media play status.
 	 *
 	 * @param requestId Id of the media play status request
 	 * @param address Address of remote device
 	 */
 	virtual void mediaPlayStatusRequested(BluetoothAvrcpRequestId requestId, const std::string &address) {}
+
+	/**
+	 * @brief This method is called when a remote device requests for media play status.
+	 *
+	 * @param requestId Id of the media play status request
+	 * @param adapterAddress Adapater address of the local device
+	 * @param address Address of remote device
+	 */
+	virtual void mediaPlayStatusRequested(BluetoothAvrcpRequestId requestId,
+										  const std::string &adapterAddress,
+										  const std::string &address) {}
 
 	/**
 	 * @brief This method is called when a local device(CT) receives media meta data from a remote device(TG).
