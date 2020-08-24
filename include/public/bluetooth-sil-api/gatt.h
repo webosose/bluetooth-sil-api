@@ -818,8 +818,9 @@ public:
 	 * @param address Address of the device
 	 * @param service UUID of the service the characteristic has changed for
 	 * @param characteristic Characteristic which has changed
+	 * @param adapterAddress Adapater address of the local device
 	 */
-	virtual void characteristicValueChanged(const std::string &address, const BluetoothUuid &service, const BluetoothGattCharacteristic &characteristic) { }
+	virtual void characteristicValueChanged(const std::string &address, const BluetoothUuid &service, const BluetoothGattCharacteristic &characteristic, const std::string &adapterAddress) { }
 
 	/**
 	 * @brief This method is called when the value of a specific characteristic of the
@@ -830,8 +831,9 @@ public:
 	 *
 	 * @param service UUID of the service the characteristic has changed for
 	 * @param characteristic Characteristic which has changed
+	 * @param adapterAddress Adapater address of the local device
 	 */
-	virtual void characteristicValueChanged(const BluetoothUuid &service, const BluetoothGattCharacteristic &characteristic) { }
+	virtual void characteristicValueChanged(const BluetoothUuid &service, const BluetoothGattCharacteristic &characteristic, const std::string &adapterAddress) { }
 
 	/**
 	 * @brief This method is called when the value of a specific descriptor of the
