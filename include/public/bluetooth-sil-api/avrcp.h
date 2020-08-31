@@ -987,6 +987,13 @@ public:
 	 * @param playStatus Play status of the media
 	 */
 	virtual void supplyMediaPlayStatus(BluetoothAvrcpRequestId requestId, const BluetoothMediaPlayStatus &playStatus, BluetoothResultCallback callback) = 0;
+	/**
+	 * @brief This method is called when TG(target) notifies media play status to CT(controller).
+	 *
+	 * @param playStatus Play status of the media
+	 * @param callback Callback to be called for result
+	 */
+	virtual void notifyMediaPlayStatus(const BluetoothMediaPlayStatus &playStatus, BluetoothResultCallback callback) = 0;
 
 #ifdef BTMNGR_SUPPORT_AV_FEAT_RCCT
 	/**
