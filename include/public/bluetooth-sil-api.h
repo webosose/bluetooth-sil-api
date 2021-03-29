@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2018 LG Electronics, Inc.
+// Copyright (c) 2014-2021 LG Electronics, Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -55,6 +55,7 @@
 #include <bluetooth-sil-api/hfp.h>
 #include <bluetooth-sil-api/pan.h>
 #include <bluetooth-sil-api/hid.h>
+#include <bluetooth-sil-api/mesh.h>
 
 /**
  * @brief Current API version of the SIL
