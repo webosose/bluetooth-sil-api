@@ -381,8 +381,6 @@ private:
 };
 
 /* Callback function types */
-/** @brief Callback to provide network id when createNetowrk() is called */
-typedef std::function<void(BluetoothError, const uint64_t networkId)> BleMeshNetworkIdCallback;
 /** @brief Callback to provide the configuration of the requested node when configGet() is called */
 typedef std::function<void(BluetoothError, BleMeshConfiguration &configuration)> BleMeshGetConfigCallback;
 /** @brief Callback to provide Composition data of the requested node when getCompositionData() API is called */
@@ -417,6 +415,14 @@ public:
 	 * @param name Name of the device discovered.
 	 */
 	virtual void scanResult(const std::string &adapterAddress, const int16_t rssi, const std::string &uuid, const std::string &name = "") {}
+
+	/**
+	 * @brief This method is called when any unprovisioned device is discovered.
+	 *
+	 * @param adapterAddress Adapter Address
+	 * @param networkId networkId of created network
+	 */
+	virtual void updateNetworkId(const std::string &adapterAddress, const uint64_t networkId = 0) {}
 
 	/**
 	 * @brief This method is called when provisioning of a device is success or failed.
@@ -499,14 +505,10 @@ public:
 	 * @param bearer Underlying bearer to use.
 	 *               Pass PB-GATT for PB-GATT bearer
 	 *               Pass PB-ADV for PB-ADV bearer
-	 * @param callback Callback to be called to return result and network Id after
-	 *                 creating the network.
 	 */
-	virtual void createNetwork(const std::string &bearer,
-							   BleMeshNetworkIdCallback callback)
+	virtual BluetoothError createNetwork(const std::string &bearer)
 	{
-		if (callback)
-			callback(BLUETOOTH_ERROR_UNSUPPORTED, 0);
+		return BLUETOOTH_ERROR_UNSUPPORTED;
 	}
 
 	/**
