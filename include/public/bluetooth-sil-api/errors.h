@@ -108,7 +108,19 @@ enum BluetoothError
 	/** Not authorised to perform this action */
 	BLUETOOTH_ERROR_MESH_NOT_AUTHORISED = 38,
 	/** Mesh network already exists */
-	BLUETOOTH_ERROR_MESH_NETWORK_EXISTS = 39
+	BLUETOOTH_ERROR_MESH_NETWORK_EXISTS = 39,
+	/** Timeout during provisioning */
+	BLUETOOTH_ERROR_MESH_TIMEOUT = 40,
+	/** Confirmation-failed during provisioning */
+	BLUETOOTH_ERROR_MESH_CONFIRMATION_FAILED = 41,
+	/** Out-of-resources during provisioning */
+	BLUETOOTH_ERROR_MESH_OUT_OF_RESOURCES = 42,
+	/** Decryption-error during provisioning */
+	BLUETOOTH_ERROR_MESH_DECRYPTION_ERROR = 43,
+	/** Unexpected-error during provisioning */
+	BLUETOOTH_ERROR_MESH_UNEXPECTED_ERROR = 44,
+	/** Cannot-assign-addresses during provisioning */
+	BLUETOOTH_ERROR_MESH_CANNOT_ASSIGN_ADDRESSES = 45
 };
 
 /**
