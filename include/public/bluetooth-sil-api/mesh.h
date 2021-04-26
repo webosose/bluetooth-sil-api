@@ -512,6 +512,23 @@ public:
 	}
 
 	/**
+	 * @brief This API is called when network is already created, and node
+	 * need to be attached with the existing mesh token.
+
+	 * @param bearer Underlying bearer to use.
+	 *               Pass PB-GATT for PB-GATT bearer
+	 *               Pass PB-ADV for PB-ADV bearer
+	 * @param token Mesh Token
+	 * @return Returns error code.
+	 *         Possible errors: BLUETOOTH_ERROR_FAIL,
+	 *                          BLUETOOTH_ERROR_NONE
+	 */
+	virtual BluetoothError attach(const std::string &bearer, const std::string &token)
+	{
+		return BLUETOOTH_ERROR_UNSUPPORTED;
+	}
+
+	/**
 	 * @brief This method is used to get mesh network related information when
 	 * local node is provisioner.
 	 *
