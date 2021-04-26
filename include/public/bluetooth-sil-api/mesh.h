@@ -415,7 +415,7 @@ public:
 	 */
 	virtual void modelDataReceived(const std::string &adapterAddress,
 								   uint16_t srcAddress, uint16_t destAddress,
-								   uint8_t data) {}
+								   uint16_t appKey, uint8_t data[], uint32_t datalen) {}
 
 	/**
 	 * @brief This method is called when any unprovisioned device is discovered.
@@ -738,7 +738,7 @@ public:
 	virtual BluetoothError modelSend(const std::string &bearer, uint16_t srcAddress,
 									 uint16_t destAddress, uint16_t appKeyIndex,
 									 const std::string &command,
-									 BleMeshPayload payload)
+									 BleMeshPayload &payload)
 	{
 		return BLUETOOTH_ERROR_UNSUPPORTED;
 	}
