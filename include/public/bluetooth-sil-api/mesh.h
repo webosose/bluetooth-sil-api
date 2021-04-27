@@ -174,6 +174,11 @@ private:
 class BleMeshRelayStatus
 {
 public:
+	BleMeshRelayStatus() :
+	relay(0),
+	relayRetransmitCount(0),
+	relayRetransmitIntervalSteps(0)
+	{}
 	/* Accesssor and modifier functions for private variables */
 	uint8_t getRelay() const { return relay; }
 	uint8_t getrelayRetransmitCount() const { return relayRetransmitCount; }
@@ -214,12 +219,14 @@ public:
 	std::string getConfig() const { return config; }
 	std::vector<uint16_t> getAppKeyIndexes() const { return appKeyIndexes; }
 	uint8_t getGattProxyState() const { return gattProxyState; }
+	uint8_t getTTL() const { return ttl; }
 	BleMeshRelayStatus getRelayStatus() const { return relayStatus; }
 
 	void setConfig(const std::string config) { this->config = config; }
 	void setAppKeyIndexes(std::vector<uint16_t> &appKeyIndexes) { this->appKeyIndexes = appKeyIndexes; }
 	void setGattProxyState(uint8_t gattProxyState) { this->gattProxyState = gattProxyState; }
 	void setRelayStatus(BleMeshRelayStatus relayStatus) { this->relayStatus = relayStatus; }
+	void setTTL(uint8_t ttl) { this->ttl = ttl; }
 
 private:
 	/** Configuration to get. Values can be,
@@ -242,6 +249,11 @@ private:
 	 * Note: This information will be sent when config is GATT_PROXY
 	 */
 	uint8_t gattProxyState;
+
+	/** TTL
+	 *Values will be in the range: 0x00, 0x02–0x7F
+	 */
+	uint8_t ttl;
 
 	/** Current Relay and Relay Retransmit states of a node
 	 * Note: This information will be sent when config is RELAY
@@ -381,8 +393,6 @@ private:
 };
 
 /* Callback function types */
-/** @brief Callback to provide the configuration of the requested node when configGet() is called */
-typedef std::function<void(BluetoothError, BleMeshConfiguration &configuration)> BleMeshGetConfigCallback;
 /** @brief Callback to provide Composition data of the requested node when getCompositionData() API is called */
 typedef std::function<void(BluetoothError, BleMeshCompositionData &compositionData)> BleMeshCompositionDataCallback;
 /** @brief Callback to provide mesh network information when getMeshInfo is called */
@@ -415,6 +425,14 @@ public:
 	 * @param name Name of the device discovered.
 	 */
 	virtual void scanResult(const std::string &adapterAddress, const int16_t rssi, const std::string &uuid, const std::string &name = "") {}
+
+	/**
+	 * @brief This method is called when any unprovisioned device is discovered.
+	 *
+	 * @param adapterAddress Adapter Address
+	 * @param configuration Class representing the configuration data that can be retrieved from a node
+	 */
+	virtual void modelConfigResult(const std::string &adapterAddress, BleMeshConfiguration &configuration) {}
 
 	/**
 	 * @brief This method is called when any unprovisioned device is discovered.
@@ -680,7 +698,7 @@ public:
 	 *
 	 * @return Returns error code.
 	 *         Possible errors: BLUETOOTH_ERROR_MESH_APP_INDEX_EXISTS,
-	 *                          BLUETOOTH_ERROR_MESH_NET_INDEX_DOES_NOT_EXIST,
+	 *                          BLUETOOTH_ERROR_MESH_NET_KEY_INDEX_DOES_NOT_EXIST,
 	 *                          BLUETOOTH_ERROR_FAIL,
 	 *                          BLUETOOTH_ERROR_NONE,
 	 *                          BLUETOOTH_ERROR_NOT_ALLOWED
@@ -713,7 +731,7 @@ public:
 	 *         Possible errors: BLUETOOTH_ERROR_FAIL,
 	 *                          BLUETOOTH_ERROR_NONE,
 	 *                          BLUETOOTH_ERROR_NOT_ALLOWED,
-	 *                          BLUETOOTH_ERROR_MESH_APP_INDEX_DOES_NOT_EXIST
+	 *                          BLUETOOTH_ERROR_MESH_APP_KEY_INDEX_DOES_NOT_EXIST
 	 */
 	virtual BluetoothError modelSend(const std::string &bearer, uint16_t srcAddress,
 									 uint16_t destAddress, uint16_t appKeyIndex,
@@ -738,7 +756,7 @@ public:
 	 *         Possible errors: BLUETOOTH_ERROR_FAIL,
 	 *                          BLUETOOTH_ERROR_NONE,
 	 *                          BLUETOOTH_ERROR_NOT_ALLOWED,
-	 *                          BLUETOOTH_ERROR_MESH_APP_INDEX_DOES_NOT_EXIST
+	 *                          BLUETOOTH_ERROR_MESH_APP_KEY_INDEX_DOES_NOT_EXIST
 	 */
 	virtual BluetoothError setOnOff(const std::string &bearer,
 									 uint16_t destAddress, uint16_t appKeyIndex, bool onoff)
@@ -750,8 +768,6 @@ public:
 	 * @brief This is a method to get various configuration parameters provided
 	 * by configuration model.
 	 *
-	 * @param callback Callback called to return the configuration information
-	 *                 requested.
 	 * @param bearer Underlying bearer to use.
 	 *               Pass PB-GATT for PB-GATT bearer
 	 *               Pass PB-ADV for PB-ADV bearer
@@ -762,16 +778,19 @@ public:
 	 * @param netKeyIndex Index of the net key. Mandatory field if config field is,
 	 *                 APPKEYINDEX
 	 *                 Ignored for others
+	 * @return Returns error code.
+	 *         Possible errors: BLUETOOTH_ERROR_FAIL,
+	 *                          BLUETOOTH_ERROR_NONE,
+	 *                          BLUETOOTH_ERROR_NOT_ALLOWED,
+	 *                          BLUETOOTH_ERROR_MESH_APP_KEY_INDEX_DOES_NOT_EXIST,
+	 *                          BLUETOOTH_ERROR_MESH_NET_KEY_INDEX_DOES_NOT_EXIST
 	 */
-	virtual void configGet(BleMeshGetConfigCallback callback,
-										const std::string &bearer,
+	virtual BluetoothError configGet(const std::string &bearer,
 										uint16_t destAddress,
 										const std::string &config,
 										uint16_t netKeyIndex = 0)
 	{
-		BleMeshConfiguration configuration;
-		if (callback)
-			callback(BLUETOOTH_ERROR_UNSUPPORTED, configuration);
+		return BLUETOOTH_ERROR_UNSUPPORTED;
 	}
 
 	/**
@@ -809,12 +828,12 @@ public:
 	 *         Possible errors: BLUETOOTH_ERROR_FAIL,
 	 *                          BLUETOOTH_ERROR_NONE,
 	 *                          BLUETOOTH_ERROR_NOT_ALLOWED,
-	 *                          BLUETOOTH_ERROR_MESH_APP_INDEX_DOES_NOT_EXIST,
-	 *                          BLUETOOTH_ERROR_MESH_NET_INDEX_DOES_NOT_EXIST
+	 *                          BLUETOOTH_ERROR_MESH_APP_KEY_INDEX_DOES_NOT_EXIST,
+	 *                          BLUETOOTH_ERROR_MESH_NET_KEY_INDEX_DOES_NOT_EXIST
 	 */
 	virtual BluetoothError configSet(
 		const std::string &bearer, uint16_t destAddress, const std::string &config,
-		uint8_t gattProxyState, uint16_t netKeyIndex = 0, uint16_t appKeyIndex = 0,
+		uint8_t gattProxyState = 0, uint16_t netKeyIndex = 0, uint16_t appKeyIndex = 0,
 		uint32_t modelId = 0, uint8_t ttl = 0, BleMeshRelayStatus *relayStatus = NULL)
 	{
 		return BLUETOOTH_ERROR_UNSUPPORTED;

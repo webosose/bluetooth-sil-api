@@ -86,11 +86,11 @@ enum BluetoothError
 	/** Requested message handle is not available */
 	BLUETOOTH_ERROR_MAP_MESSAGE_HANDLE_NOT_FOUND = 27,
 	/** netIndex does not exist */
-	BLUETOOTH_ERROR_MESH_NET_INDEX_DOES_NOT_EXIST = 28,
+	BLUETOOTH_ERROR_MESH_NET_KEY_INDEX_DOES_NOT_EXIST = 28,
 	/** appIndex already exists */
-	BLUETOOTH_ERROR_MESH_APP_INDEX_ALREADY_EXISTS = 29,
+	BLUETOOTH_ERROR_MESH_APP_KEY_INDEX_ALREADY_EXISTS = 29,
 	/** appIndex does not exist */
-	BLUETOOTH_ERROR_MESH_APP_INDEX_DOES_NOT_EXIST = 30,
+	BLUETOOTH_ERROR_MESH_APP_KEY_INDEX_DOES_NOT_EXIST = 30,
 	/** No response received from remote node */
 	BLUETOOTH_ERROR_MESH_NO_RESPONSE = 31,
 	/** Bad PDU during provisioning */
@@ -120,7 +120,9 @@ enum BluetoothError
 	/** Unexpected-error during provisioning */
 	BLUETOOTH_ERROR_MESH_UNEXPECTED_ERROR = 44,
 	/** Cannot-assign-addresses during provisioning */
-	BLUETOOTH_ERROR_MESH_CANNOT_ASSIGN_ADDRESSES = 45
+	BLUETOOTH_ERROR_MESH_CANNOT_ASSIGN_ADDRESSES = 45,
+	/** Cannot-update appKey */
+	BLUETOOTH_ERROR_MESH_CANNOT_UPDATE_APPKEY = 46
 };
 
 /**
