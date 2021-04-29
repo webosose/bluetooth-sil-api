@@ -122,7 +122,9 @@ enum BluetoothError
 	/** Cannot-assign-addresses during provisioning */
 	BLUETOOTH_ERROR_MESH_CANNOT_ASSIGN_ADDRESSES = 45,
 	/** Cannot-update appKey */
-	BLUETOOTH_ERROR_MESH_CANNOT_UPDATE_APPKEY = 46
+	BLUETOOTH_ERROR_MESH_CANNOT_UPDATE_APPKEY = 46,
+	/** No response from remote node */
+	BLUETOOTH_ERROR_MESH_NO_RESPONSE_FROM_NODE = 47
 };
 
 /**

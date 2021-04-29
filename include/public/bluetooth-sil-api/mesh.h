@@ -215,6 +215,7 @@ private:
 class BleMeshConfiguration
 {
 public:
+
 	/* Accesssor and modifier functions for private variables */
 	std::string getConfig() const { return config; }
 	std::vector<uint16_t> getAppKeyIndexes() const { return appKeyIndexes; }
@@ -431,8 +432,9 @@ public:
 	 *
 	 * @param adapterAddress Adapter Address
 	 * @param configuration Class representing the configuration data that can be retrieved from a node
+	 * @param error Success or failure of provisioning
 	 */
-	virtual void modelConfigResult(const std::string &adapterAddress, BleMeshConfiguration &configuration) {}
+	virtual void modelConfigResult(const std::string &adapterAddress, BleMeshConfiguration &configuration, BluetoothError error) {}
 
 	/**
 	 * @brief This method is called when any unprovisioned device is discovered.
