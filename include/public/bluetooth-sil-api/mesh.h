@@ -485,6 +485,8 @@ public:
 	 *                   twist : Twist local knob remotely requested times
 	 * @param unicastAddress Unicast address of the node provisioned when the
 	 *                       provisioning is success and "request"="endProvision"
+	 * @param count  number of unicast addresses assigned
+	 *	to the new node.
 	 * @param uuid Device uuid
 	 */
 	virtual void provisionResult(BluetoothError error, const std::string &adapterAddress,
@@ -494,6 +496,7 @@ public:
 								 const std::string &numberDisplayType ="",
 								 const std::string &promptType = "",
 								 uint16_t unicastAddress = 0,
+								 uint8_t count = 0,
 								 const std::string &uuid = "") {}
 };
 
@@ -837,6 +840,23 @@ public:
 		const std::string &bearer, uint16_t destAddress, const std::string &config,
 		uint8_t gattProxyState = 0, uint16_t netKeyIndex = 0, uint16_t appKeyIndex = 0,
 		uint32_t modelId = 0, uint8_t ttl = 0, BleMeshRelayStatus *relayStatus = NULL)
+	{
+		return BLUETOOTH_ERROR_UNSUPPORTED;
+	}
+
+	/**
+	 * @brief This is the method to update the unicast addresses asigned so far
+	 *
+	 * @param bearer Underlying bearer to use.
+	 *               Pass PB-GATT for PB-GATT bearer
+	 *               Pass PB-ADV for PB-ADV bearer
+	 * @param unicastAddresses Unicast Addresses
+	 * @return Returns error code.
+	 *         Possible errors: BLUETOOTH_ERROR_FAIL,
+	 *                          BLUETOOTH_ERROR_NONE
+	 */
+	virtual BluetoothError updateNodeInfo(const std::string &bearer,
+								std::vector<uint16_t> &unicastAddresses)
 	{
 		return BLUETOOTH_ERROR_UNSUPPORTED;
 	}
