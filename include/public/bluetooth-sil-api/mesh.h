@@ -209,59 +209,6 @@ private:
 	uint8_t relayRetransmitIntervalSteps;
 };
 
-/**
- * @brief Class representing the configuration data that can be retrieved from a node
- */
-class BleMeshConfiguration
-{
-public:
-
-	/* Accesssor and modifier functions for private variables */
-	std::string getConfig() const { return config; }
-	std::vector<uint16_t> getAppKeyIndexes() const { return appKeyIndexes; }
-	uint8_t getGattProxyState() const { return gattProxyState; }
-	uint8_t getTTL() const { return ttl; }
-	BleMeshRelayStatus getRelayStatus() const { return relayStatus; }
-
-	void setConfig(const std::string config) { this->config = config; }
-	void setAppKeyIndexes(std::vector<uint16_t> &appKeyIndexes) { this->appKeyIndexes = appKeyIndexes; }
-	void setGattProxyState(uint8_t gattProxyState) { this->gattProxyState = gattProxyState; }
-	void setRelayStatus(BleMeshRelayStatus relayStatus) { this->relayStatus = relayStatus; }
-	void setTTL(uint8_t ttl) { this->ttl = ttl; }
-
-private:
-	/** Configuration to get. Values can be,
-	 * APPKEYINDEX
-	 * DEFAULT_TTL
-	 * GATT_PROXY
-	 * RELAY
-	 */
-	std::string config;
-	/** A list of AppKey indexes that are bound to the NetKey identified by
-	 * netKeyIndex passed during configGet API call
-	 * Note: This information will be sent when config is APPKEYINDEX
-	 */
-	std::vector<uint16_t> appKeyIndexes;
-
-	/** GATT proxy state
-	 * Value can be, 0x00 - The Proxy feature is supported and disabled
-	 * 0x01 - The Proxy feature is supported and enabled
-	 * 0x02 - The Proxy feature is not supported
-	 * Note: This information will be sent when config is GATT_PROXY
-	 */
-	uint8_t gattProxyState;
-
-	/** TTL
-	 *Values will be in the range: 0x00, 0x02–0x7F
-	 */
-	uint8_t ttl;
-
-	/** Current Relay and Relay Retransmit states of a node
-	 * Note: This information will be sent when config is RELAY
-	 */
-	BleMeshRelayStatus relayStatus;
-};
-
 /** @brief Class representing the Element in a node. Element is an addressable
  * entity within a device. A device is required to have at least one element.
  */
@@ -353,6 +300,65 @@ private:
 	std::vector<BleMeshElement> elements;
 };
 
+/**
+ * @brief Class representing the configuration data that can be retrieved from a node
+ */
+class BleMeshConfiguration
+{
+public:
+
+	/* Accesssor and modifier functions for private variables */
+	std::string getConfig() const { return config; }
+	std::vector<uint16_t> getAppKeyIndexes() const { return appKeyIndexes; }
+	uint8_t getGattProxyState() const { return gattProxyState; }
+	uint8_t getTTL() const { return ttl; }
+	BleMeshRelayStatus getRelayStatus() const { return relayStatus; }
+	BleMeshCompositionData getCompositionData() const { return compositionData; }
+
+	void setConfig(const std::string config) { this->config = config; }
+	void setAppKeyIndexes(std::vector<uint16_t> &appKeyIndexes) { this->appKeyIndexes = appKeyIndexes; }
+	void setGattProxyState(uint8_t gattProxyState) { this->gattProxyState = gattProxyState; }
+	void setRelayStatus(BleMeshRelayStatus relayStatus) { this->relayStatus = relayStatus; }
+	void setTTL(uint8_t ttl) { this->ttl = ttl; }
+	void setCompositionData(BleMeshCompositionData compositionData) { this->compositionData = compositionData; }
+
+private:
+	/** Configuration to get. Values can be,
+	 * APPKEYINDEX
+	 * DEFAULT_TTL
+	 * GATT_PROXY
+	 * RELAY
+	 */
+	std::string config;
+	/** A list of AppKey indexes that are bound to the NetKey identified by
+	 * netKeyIndex passed during configGet API call
+	 * Note: This information will be sent when config is APPKEYINDEX
+	 */
+	std::vector<uint16_t> appKeyIndexes;
+
+	/** GATT proxy state
+	 * Value can be, 0x00 - The Proxy feature is supported and disabled
+	 * 0x01 - The Proxy feature is supported and enabled
+	 * 0x02 - The Proxy feature is not supported
+	 * Note: This information will be sent when config is GATT_PROXY
+	 */
+	uint8_t gattProxyState;
+
+	/** TTL
+	 *Values will be in the range: 0x00, 0x02–0x7F
+	 */
+	uint8_t ttl;
+
+	/** Current Relay and Relay Retransmit states of a node
+	 * Note: This information will be sent when config is RELAY
+	 */
+	BleMeshRelayStatus relayStatus;
+	/**
+	 * Composition data of a node.
+	 */
+	BleMeshCompositionData compositionData;
+
+};
 
 /** @brief Class representing the payload for send() API when the command in send
  * API is "passthrough"
@@ -394,8 +400,6 @@ private:
 };
 
 /* Callback function types */
-/** @brief Callback to provide Composition data of the requested node when getCompositionData() API is called */
-typedef std::function<void(BluetoothError, BleMeshCompositionData &compositionData)> BleMeshCompositionDataCallback;
 /** @brief Callback to provide mesh network information when getMeshInfo is called */
 typedef std::function<void(BluetoothError, BleMeshInfo &meshInfo)> BleMeshInfoCallback;
 
@@ -677,18 +681,14 @@ public:
 	 *               Pass PB-GATT for PB-GATT bearer
 	 *               Pass PB-ADV for PB-ADV bearer
 	 * @param destAddress Destination node address
-	 * @param callback Callback to be called with composition data
 	 *
 	 * @return Returns error code.
 	 *         Possible errors: BLUETOOTH_ERROR_FAIL,
 	 *                          BLUETOOTH_ERROR_NONE,
 	 */
-	virtual void getCompositionData(const std::string &bearer, uint16_t destAddress,
-									BleMeshCompositionDataCallback callback)
+	virtual BluetoothError getCompositionData(const std::string &bearer, uint16_t destAddress)
 	{
-		BleMeshCompositionData compositionData;
-		if (callback)
-			callback(BLUETOOTH_ERROR_UNSUPPORTED, compositionData);
+		return BLUETOOTH_ERROR_UNSUPPORTED;
 	}
 
 	/**
