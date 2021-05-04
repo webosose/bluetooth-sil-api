@@ -109,8 +109,8 @@ enum BluetoothError
 	BLUETOOTH_ERROR_MESH_NOT_AUTHORISED = 38,
 	/** Mesh network already exists */
 	BLUETOOTH_ERROR_MESH_NETWORK_EXISTS = 39,
-        /** Invalid model send cmd */
-        BLUETOOTH_ERROR_MESH_INVALID_COMMAND = 40,
+	/** Invalid model send cmd */
+	BLUETOOTH_ERROR_MESH_INVALID_COMMAND = 40,
 	/** Timeout during provisioning */
 	BLUETOOTH_ERROR_MESH_TIMEOUT = 41,
 	/** Confirmation-failed during provisioning */

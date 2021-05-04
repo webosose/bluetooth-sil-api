@@ -314,6 +314,7 @@ public:
 	uint8_t getTTL() const { return ttl; }
 	BleMeshRelayStatus getRelayStatus() const { return relayStatus; }
 	BleMeshCompositionData getCompositionData() const { return compositionData; }
+	bool getOnOffState() const { return onOffState; }
 
 	void setConfig(const std::string config) { this->config = config; }
 	void setAppKeyIndexes(std::vector<uint16_t> &appKeyIndexes) { this->appKeyIndexes = appKeyIndexes; }
@@ -321,6 +322,7 @@ public:
 	void setRelayStatus(BleMeshRelayStatus relayStatus) { this->relayStatus = relayStatus; }
 	void setTTL(uint8_t ttl) { this->ttl = ttl; }
 	void setCompositionData(BleMeshCompositionData compositionData) { this->compositionData = compositionData; }
+	void setOnOffState(bool onOffState) { this->onOffState = onOffState; }
 
 private:
 	/** Configuration to get. Values can be,
@@ -358,6 +360,10 @@ private:
 	 */
 	BleMeshCompositionData compositionData;
 
+        /** onOffState
+         * onOff State received from remote device if supported
+         */
+        bool onOffState;
 };
 
 /** @brief Class representing the payload for send() API when the command in send
@@ -439,6 +445,15 @@ public:
 	 * @param error Success or failure of provisioning
 	 */
 	virtual void modelConfigResult(const std::string &adapterAddress, BleMeshConfiguration &configuration, BluetoothError error) {}
+
+	/**
+	 * @brief This method is called when any onOff model status is received.
+	 *
+	 * @param adapterAddress Adapter Address
+	 * @param onOffState received state
+	 * @param error Success or failure
+	 */
+	virtual void modelSetOnOffResult(const std::string &adapterAddress, bool onOffState, BluetoothError error) {}
 
 	/**
 	 * @brief This method is called when any unprovisioned device is discovered.
@@ -757,6 +772,10 @@ public:
 	 *              Value can be,
 	 *              true: Switch on
 	 *              false: Switch off
+	 * @param ack Indicates on/off message type
+	 *              Value can be:
+	 *              true: Send acknowledged on/off message
+	 *              false: Send unacknowledged on/off message
 	 * @return Returns error code.
 	 *         Possible errors: BLUETOOTH_ERROR_FAIL,
 	 *                          BLUETOOTH_ERROR_NONE,
@@ -764,7 +783,7 @@ public:
 	 *                          BLUETOOTH_ERROR_MESH_APP_KEY_INDEX_DOES_NOT_EXIST
 	 */
 	virtual BluetoothError setOnOff(const std::string &bearer,
-									 uint16_t destAddress, uint16_t appKeyIndex, bool onoff)
+									 uint16_t destAddress, uint16_t appKeyIndex, bool onoff, bool ack = false)
 	{
 		return BLUETOOTH_ERROR_UNSUPPORTED;
 	}
