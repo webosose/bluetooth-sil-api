@@ -101,6 +101,7 @@ private:
 class BleMeshInfo
 {
 public:
+	BleMeshInfo(){ivIndex = 0;}
 	/* Accesssor and modifier functions for private variables */
 	std::string getMeshName() const { return meshName; }
 	uint32_t getIvIndex() const { return ivIndex; }
