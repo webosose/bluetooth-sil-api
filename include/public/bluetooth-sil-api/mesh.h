@@ -144,7 +144,6 @@ public:
 	friendSupport(0),
 	lowPowerSupport(0)
 	{}
-
 	BleMeshFeature(bool relaySupport, bool proxySupport, bool friendSupport,
 					bool lowPowerSupport)
 	{
@@ -270,7 +269,12 @@ private:
 class BleMeshCompositionData
 {
 public:
-	BleMeshCompositionData(){}
+	BleMeshCompositionData() :
+	companyId(0),
+	productId(0),
+	versionId(0),
+	numRplEnteries(0)
+	{}
 	BleMeshCompositionData(uint16_t companyId, uint16_t productId, uint16_t versionId,
 							uint16_t numRplEnteries, BleMeshFeature &features,
 							std::vector<BleMeshElement> &elements)
@@ -537,7 +541,7 @@ public:
 class BluetoothMeshProfile
 {
 public:
-	BluetoothMeshProfile() {}
+	BluetoothMeshProfile() : observer(0) { }
 
 	virtual ~BluetoothMeshProfile() {}
 

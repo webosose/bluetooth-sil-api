@@ -64,7 +64,7 @@ public:
 		PRIMARY_COUNTER,
 		/**
 		 * @brief The secondary version counter shall only increment on every completion of
-		 *        changes to the vCard’s N, FN, TEL, EMAIL, MAILER, ADR, X-BT-UCI properties
+		 *        changes to the vCard's N, FN, TEL, EMAIL, MAILER, ADR, X-BT-UCI properties
 		 *        as well as on insertion or removal of entries.(PBAP)
 		 *
 		 *        Type: std::string
@@ -93,7 +93,7 @@ public:
 	/**
 	 * @brief Default c'tor
 	 */
-	BluetoothPbapApplicationParameters()
+	BluetoothPbapApplicationParameters() : fixedImageSize(0)
 	{
 	}
 
@@ -176,7 +176,7 @@ public:
 class BluetoothPbapProfile
 {
 public:
-	BluetoothPbapProfile() { }
+	BluetoothPbapProfile() : observer(0) { }
 
 	virtual ~BluetoothPbapProfile() { }
 

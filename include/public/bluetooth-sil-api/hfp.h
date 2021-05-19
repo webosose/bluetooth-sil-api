@@ -167,7 +167,7 @@ public:
 	/**
 	 * @brief Default Constructor
 	 */
-	BluetoothHfpProfile() { }
+	BluetoothHfpProfile() : observer(0) { }
 
 	virtual ~BluetoothHfpProfile() { }
 
