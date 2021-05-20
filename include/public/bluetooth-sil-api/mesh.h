@@ -101,7 +101,7 @@ private:
 class BleMeshInfo
 {
 public:
-	BleMeshInfo(){ivIndex = 0;}
+	BleMeshInfo() : ivIndex(0) { }
 	/* Accesssor and modifier functions for private variables */
 	std::string getMeshName() const { return meshName; }
 	uint32_t getIvIndex() const { return ivIndex; }
@@ -138,7 +138,13 @@ private:
 class BleMeshFeature
 {
 public:
-	BleMeshFeature(){}
+	BleMeshFeature() :
+	relaySupport(0),
+	proxySupport(0),
+	friendSupport(0),
+	lowPowerSupport(0)
+	{}
+
 	BleMeshFeature(bool relaySupport, bool proxySupport, bool friendSupport,
 					bool lowPowerSupport)
 	{
@@ -216,7 +222,12 @@ private:
 class BleMeshElement
 {
 public:
-	BleMeshElement(){}
+	BleMeshElement() :
+	loc(0),
+	numS(0),
+	numV(0)
+	{}
+
 	BleMeshElement(uint16_t loc, uint8_t numS, std::vector<uint32_t> &sigModelIds,
 					uint8_t numV, std::vector<uint32_t> &vendorModelIds)
 	{

@@ -43,12 +43,15 @@ public:
 	}
 	TestPairData(std::string init_address, bool init_expectSuccess) :
 		address(init_address),
+		secretType(BLUETOOTH_PAIRING_SECRET_TYPE_PASSKEY),
+		passkey(0),
 		expectSuccess(init_expectSuccess)
 	{
 	}
 	TestPairData(std::string init_address, std::string init_pin, bool init_expectSuccess) :
 		address(init_address),
 		secretType(BLUETOOTH_PAIRING_SECRET_TYPE_PIN),
+		passkey(0),
 		pin(init_pin),
 		expectSuccess(init_expectSuccess)
 	{

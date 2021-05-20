@@ -125,6 +125,7 @@ public:
 		discoveryStateValue(false),
 		pairingDeviceAddress(""),
 		pairingConfirmationPin(""),
+		pairingSecretType(BLUETOOTH_PAIRING_SECRET_TYPE_PASSKEY),
 		pairingConfirmationPasskey(0),
 		pairingConfirmationRequested(false),
 		pairingDisplaySecretRequested(false),

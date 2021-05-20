@@ -200,7 +200,7 @@ static gboolean setup_sppDisconnectUuid(gpointer user_data)
 static gboolean setup_sppWriteData(gpointer user_data)
 {
 
-	char recievedData[] = {10, 110, 0, 5, 93, 4, 100, 30};
+	unsigned char recievedData[] = {10, 110, 0, 5, 93, 4, 100, 30};
 
 	sppProfile->writeData(channelId, (const uint8_t *) recievedData, sizeof(recievedData), spp_write_callback);
 	gTimeoutSource = g_timeout_add(10000, check_spp_timeout, (void *)NULL);

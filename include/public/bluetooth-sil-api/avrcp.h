@@ -957,7 +957,7 @@ public:
 class BluetoothAvrcpProfile
 {
 public:
-	BluetoothAvrcpProfile() { }
+	BluetoothAvrcpProfile() :  observer(0) { }
 
 	virtual ~BluetoothAvrcpProfile() { }
 

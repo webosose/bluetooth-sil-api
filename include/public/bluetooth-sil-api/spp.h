@@ -73,7 +73,7 @@ BluetoothChannelStateResultCallback;
 class BluetoothSppProfile
 {
 public:
-	BluetoothSppProfile() { }
+	BluetoothSppProfile() : observer(0) { }
 
 	virtual ~BluetoothSppProfile() { }
 
