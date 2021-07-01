@@ -331,6 +331,7 @@ public:
 	BleMeshRelayStatus getRelayStatus() const { return relayStatus; }
 	BleMeshCompositionData getCompositionData() const { return compositionData; }
 	bool getOnOffState() const { return onOffState; }
+	uint16_t getNodeAddress() const { return nodeAddress; }
 
 	void setConfig(const std::string config) { this->config = config; }
 	void setAppKeyIndexes(std::vector<uint16_t> &appKeyIndexes) { this->appKeyIndexes = appKeyIndexes; }
@@ -339,7 +340,7 @@ public:
 	void setTTL(uint8_t ttl) { this->ttl = ttl; }
 	void setCompositionData(BleMeshCompositionData compositionData) { this->compositionData = compositionData; }
 	void setOnOffState(bool onOffState) { this->onOffState = onOffState; }
-
+	void setNodeAddress(uint16_t nodeAddress) { this->nodeAddress = nodeAddress; }
 private:
 	/** Configuration to get. Values can be,
 	 * APPKEYINDEX
@@ -376,10 +377,15 @@ private:
 	 */
 	BleMeshCompositionData compositionData;
 
-        /** onOffState
-         * onOff State received from remote device if supported
-         */
-        bool onOffState;
+	/** onOffState
+	* onOff State received from remote device if supported
+	*/
+	bool onOffState;
+
+	/** nodeAddress
+	* unicast address of the remove node
+	*/
+	uint16_t nodeAddress;
 };
 
 /** @brief Class representing the payload for send() API when the command in send
@@ -875,6 +881,27 @@ public:
 		const std::string &bearer, uint16_t destAddress, const std::string &config,
 		uint8_t gattProxyState = 0, uint16_t netKeyIndex = 0, uint16_t appKeyIndex = 0,
 		uint32_t modelId = 0, uint8_t ttl = 0, BleMeshRelayStatus *relayStatus = NULL)
+	{
+		return BLUETOOTH_ERROR_UNSUPPORTED;
+	}
+
+	/**
+	 * @brief This method is used by the application to delete a remote node
+	 *        from the local device key database and remove it from network
+	 *
+	 * @param bearer Underlying bearer to use.
+	 *               Pass PB-GATT for PB-GATT bearer
+	 *               Pass PB-ADV for PB-ADV bearer
+	 * @param destAddress Unicast address of the destination
+	 * @param count  number of unicast addresses assigned
+	 *	to the node.
+	 * @return Returns error code.
+	 *         Possible errors: BLUETOOTH_ERROR_FAIL,
+	 *                          BLUETOOTH_ERROR_NONE,
+	 *                          BLUETOOTH_ERROR_NOT_ALLOWED
+	 */
+	virtual BluetoothError deleteNode(
+		const std::string &bearer, uint16_t destAddress, uint8_t count)
 	{
 		return BLUETOOTH_ERROR_UNSUPPORTED;
 	}
