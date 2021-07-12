@@ -126,7 +126,9 @@ enum BluetoothError
 	/** Cannot-update appKey */
 	BLUETOOTH_ERROR_MESH_CANNOT_UPDATE_APPKEY = 47,
 	/** No response from remote node */
-	BLUETOOTH_ERROR_MESH_NO_RESPONSE_FROM_NODE = 48
+	BLUETOOTH_ERROR_MESH_NO_RESPONSE_FROM_NODE = 48,
+	/** Cannot-update netKey */
+	BLUETOOTH_ERROR_MESH_NETKEY_UPDATE_FAILED = 49
 };
 
 /**

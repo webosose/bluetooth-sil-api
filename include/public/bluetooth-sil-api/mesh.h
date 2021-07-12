@@ -316,6 +316,48 @@ private:
 	std::vector<BleMeshElement> elements;
 };
 
+/** @brief Class represenitng a node in the mesh network */
+class BleMeshNode
+{
+public:
+	BleMeshNode():
+	primaryElementAddress(0),
+	numberOfElements(0),
+	netKeyIndex(0) {}
+	BleMeshNode(std::string &uuid, uint16_t primaryElementAddress,
+			uint16_t numberOfElements, uint16_t netKeyIndex,
+			std::vector<uint16_t> &appKeyIndexes) :
+	uuid(uuid),
+	primaryElementAddress(primaryElementAddress),
+	numberOfElements(numberOfElements),
+	netKeyIndex(netKeyIndex),
+	appKeyIndexes(appKeyIndexes) {}
+	/* Accessor and modifier functions for private variables */
+	std::string getUuid() const { return uuid; }
+	uint16_t getPrimaryElementAddress() const { return primaryElementAddress; }
+	uint16_t getNumberOfElements() const { return numberOfElements; }
+	uint16_t getNetKeyIndex() const { return netKeyIndex; }
+	std::vector<uint16_t> getAppKeyIndexes() const { return appKeyIndexes; }
+
+	void setUuid(const std::string uuid) { this->uuid = uuid; }
+	void setPrimaryElementAddress(const uint16_t primaryElementAddress)
+								{ this->primaryElementAddress = primaryElementAddress; }
+	void setNumberOfElements(const uint16_t numberOfElements) { this->numberOfElements = numberOfElements; }
+	void setNetKeyIndex(const uint16_t netKeyIndex) { this->netKeyIndex = netKeyIndex; }
+	void setAppKeyIndexes(const std::vector<uint16_t> &appKeyIndexes) { this->appKeyIndexes = appKeyIndexes; }
+private:
+	/** @brief uuid of the node */
+	std::string uuid;
+	/** @brief primary element address of the node */
+	uint16_t primaryElementAddress;
+	/** @brief Number of elements in the node */
+	uint16_t numberOfElements;
+	/** @brief netKeyIndex of the network that the node is part of */
+	uint16_t netKeyIndex;
+	/** @brief appkeyIndexes known to the node */
+	std::vector<uint16_t> appKeyIndexes;
+};
+
 /**
  * @brief Class representing the configuration data that can be retrieved from a node
  */
@@ -554,6 +596,24 @@ public:
 								 uint16_t unicastAddress = 0,
 								 uint8_t count = 0,
 								 const std::string &uuid = "") {}
+	/**
+	 * @brief This method is called to inform about the key refresh intermediate
+	 * result as well as when key refresh procedure completes
+	 *
+	 * @param error Success or any error during key refresh procedure
+	 * @param adapterAddress Adapter Address
+	 * @param netKeyIndex Network Key index of key refresh procedure
+	 * @param status Key refresh phase status, can be "idle", "active", "complete"
+	 * @param keyRefreshPhase key refresh phase
+	 * @param nodeAddress Node address for any error occurd
+	 * @param appKeyIndex appKeyIndex for which updated failed for any node
+	 */
+	virtual void keyRefreshResult(BluetoothError error, const std::string &adapterAddress,
+									uint16_t netKeyIndex,
+									std::string &status,
+									uint16_t keyRefreshPhase,
+									uint16_t nodeAddress = 0,
+									uint16_t appKeyIndex = 0) {}
 };
 
 /** Class representing the APIs that bluetooth2 service can call to support BLE Mesh.
@@ -936,6 +996,33 @@ public:
 								std::vector<uint16_t> &unicastAddresses)
 	{
 		return BLUETOOTH_ERROR_UNSUPPORTED;
+	}
+
+	/**
+	 * @brief This function can be called to initiate key refresh procedure in
+	 * the mesh network
+	 *
+	 * @param callback callback to provide success or error to start the key refresh
+	 * @param bearer Underlying bearer to use.
+	 *               Pass PB-GATT for PB-GATT bearer
+	 *               Pass PB-ADV for PB-ADV bearer
+	 * @param refreshAppKeys indicates whether to update the appkeys or not
+	 * @param appKeyIndexesToRefresh appkeyindexes to refresh if refreshAppKeys is true
+	 * @param blackListedNodes blacklisted nodes to which updated keys should not be sent
+	 * @param nodes All the provisioned nodes in the network
+	 * @param netKeyIndex netKeyIndex of the network to inistaite the key refresh
+	 * @param waitTime Indicates the total duration (in seconds) to wait for
+	 *                 each phase to complete during keyRefresh process.
+	 */
+	virtual void keyRefresh(BluetoothResultCallback callback, const std::string &bearer,
+								  bool refreshAppKeys,
+								  std::vector<uint16_t> appKeyIndexesToRefresh,
+								  std::vector<uint16_t> blackListedNodes,
+								  std::vector<BleMeshNode> nodes,
+								  uint16_t netKeyIndex = 0,
+								  int32_t waitTime = 0)
+	{
+		callback(BLUETOOTH_ERROR_UNSUPPORTED);
 	}
 
 protected:
