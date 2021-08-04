@@ -332,6 +332,8 @@ public:
 	BleMeshCompositionData getCompositionData() const { return compositionData; }
 	bool getOnOffState() const { return onOffState; }
 	uint16_t getNodeAddress() const { return nodeAddress; }
+	uint16_t getNetKeyIndex() const { return netKeyIndex; }
+	uint16_t getAppKeyIndex() const { return appKeyIndex; }
 
 	void setConfig(const std::string config) { this->config = config; }
 	void setAppKeyIndexes(std::vector<uint16_t> &appKeyIndexes) { this->appKeyIndexes = appKeyIndexes; }
@@ -341,6 +343,9 @@ public:
 	void setCompositionData(BleMeshCompositionData compositionData) { this->compositionData = compositionData; }
 	void setOnOffState(bool onOffState) { this->onOffState = onOffState; }
 	void setNodeAddress(uint16_t nodeAddress) { this->nodeAddress = nodeAddress; }
+	void setNetKeyIndex(uint16_t netKeyIndex) { this->netKeyIndex = netKeyIndex; }
+	void setAppKeyIndex(uint16_t appKeyIndex) { this->appKeyIndex = appKeyIndex; }
+
 private:
 	/** Configuration to get. Values can be,
 	 * APPKEYINDEX
@@ -383,9 +388,19 @@ private:
 	bool onOffState;
 
 	/** nodeAddress
-	* unicast address of the remove node
+	* unicast address of the remote node
 	*/
 	uint16_t nodeAddress;
+
+	/** netKeyIndex
+	* updated netKeyIndex of the remote node
+	*/
+	uint16_t netKeyIndex;
+
+	/** appKeyIndex
+	* updated appKeyIndex of the remote node
+	*/
+	uint16_t appKeyIndex;
 };
 
 /** @brief Class representing the payload for send() API when the command in send
